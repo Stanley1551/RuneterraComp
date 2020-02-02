@@ -6,4 +6,13 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Page Update="MyCardsTab.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CheckPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

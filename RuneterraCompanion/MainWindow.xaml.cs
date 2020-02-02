@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,6 +24,12 @@ namespace RuneterraCompanion
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
+        {
+            CheckPopup popup = new CheckPopup();
+            popup.Show();
         }
     }
 }
