@@ -26,10 +26,6 @@ namespace RuneterraCompanion
             InitializeComponent();
         }
 
-        private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
-        {
-            CheckPopup popup = new CheckPopup();
-            popup.Show();
-        }
+        
     }
 }

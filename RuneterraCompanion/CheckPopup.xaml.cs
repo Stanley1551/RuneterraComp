@@ -86,6 +86,7 @@ namespace RuneterraCompanion
             }
 
             CancelButton.IsEnabled = false;
+            SetProgressBarValue(100);
             OperationLabel = "Operation completed";
         }
 
@@ -135,8 +136,7 @@ namespace RuneterraCompanion
             if(e.ProgressPercentage > 0)
             {
                 Dispatcher.Invoke(() => {
-                    CheckingProgressBarPercentage = e.ProgressPercentage;
-                    DownloadPercentageText.Text = e.ProgressPercentage + "%";
+                    SetProgressBarValue(e.ProgressPercentage);
                     });
             }
         }
@@ -154,6 +154,12 @@ namespace RuneterraCompanion
                 Directory.CreateDirectory(assetsDirectoryName);
             }
             catch(Exception e) { throw e; }
+        }
+
+        private void SetProgressBarValue(int percentage)
+        {
+            CheckingProgressBarPercentage = percentage;
+            DownloadPercentageText.Text = percentage + "%";
         }
     }
 }

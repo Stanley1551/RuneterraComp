@@ -17,25 +17,7 @@
             <Grid Background="DarkGray"/>
         </TabItem>
         <TabItem Header="Settings" Background="DarkGray">
-            <Grid Background="DarkGray">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
-
-                <Button Name="CardIntegrityCheck" Click="CardIntegrityCheck_Click" Grid.Row="0" Grid.ColumnSpan="3"
-                        ClickMode="Release" Height="35" Width="200" VerticalAlignment="Top" IsEnabled="True" Margin="10,10,10,10">Check cards integrity</Button>
-                <Label Grid.Row="1" Grid.Column="0" Content="Resolution: " Margin="10,10,10,10" HorizontalAlignment="Right"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Name="ResolutionComboBox" Margin="10,10,10,10" Height="25" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <ComboBoxItem IsSelected="True">1280 * 720</ComboBoxItem>
-                    <ComboBoxItem>1024 * 768</ComboBoxItem>
-                </ComboBox>
-            </Grid>
+            <local:SettingsTab x:Name="SettingsTab"/>
         </TabItem>
     </TabControl>
 
