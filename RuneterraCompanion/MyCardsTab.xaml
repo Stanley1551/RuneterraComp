@@ -7,11 +7,7 @@
     xmlns:local="clr-namespace:RuneterraCompanion">
     <ScrollViewer Name="CardScrollViewer">
         <Grid>
-            <Label Content="1"/>
-            <Label Content="1"/>
-            <Label Content="1"/>
-            <Label Content="1"/>
-            <Label Content="1"/>
+            <TextBlock Text="Placeholder for cards..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

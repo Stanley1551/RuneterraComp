@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Jot;
+using RuneterraCompanion.Configuration;
 
 namespace RuneterraCompanion
 {
@@ -13,9 +15,13 @@ namespace RuneterraCompanion
     /// </summary>
     public partial class App : Application
     {
+        public static UserConfiguration configuration = new UserConfiguration();
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            ConfigurationTracker.Tracker.Track(configuration);
         }
     }
 }

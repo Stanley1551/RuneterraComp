@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jot;
+using RuneterraCompanion.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +30,9 @@ namespace RuneterraCompanion
         public SettingsTab()
         {
             InitializeComponent();
+
+            // visszaállitani egy objektum értékeit, datacontextnek beadni!
+            DataContext = App.configuration;
         }
 
         // get a reference to main windows when it is available.
@@ -55,7 +60,7 @@ namespace RuneterraCompanion
 
         private void PortField_Pasting(object sender, DataObjectPastingEventArgs e)
         {
-            if (e.DataObject.GetDataPresent(typeof(String)))
+            if (e.DataObject.GetDataPresent(typeof(string)))
             {
                 string text = (string)e.DataObject.GetData(typeof(string));
                 if (numberRegex.IsMatch(text))
@@ -67,6 +72,11 @@ namespace RuneterraCompanion
             {
                 e.CancelCommand();
             }
+        }
+
+        private void UserNameField_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ConfigurationTracker.Tracker.Persist(App.configuration);
         }
     }
 }

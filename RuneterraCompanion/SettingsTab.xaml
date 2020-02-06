@@ -7,9 +7,10 @@
     xmlns:local="clr-namespace:RuneterraCompanion">
     <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,10 +21,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Name="CardIntegrityCheck" Click="CardIntegrityCheck_Click" Grid.Row="0" Grid.ColumnSpan="3"
+        <Button Name="CardIntegrityCheck" Click="CardIntegrityCheck_Click" Grid.Row="0" Grid.ColumnSpan="4"
                         ClickMode="Release" Height="35" Width="200" VerticalAlignment="Top" IsEnabled="True" Margin="10,10,10,10">Check cards integrity</Button>
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Name="Username" Content="Username: " HorizontalAlignment="Right"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+            <TextBox Name="UserNameField" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Height="25"  Margin="0,10,0,0"
+                  BorderBrush="Gray" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" LostFocus="UserNameField_LostFocus"
+                  Text="{Binding UserName, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="Margin" Value="10"/>
@@ -33,7 +49,7 @@
             <Label Name="PortLabel" Content="Third party endpoint:" HorizontalAlignment="Right"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left">
             <ComboBox Name="ResolutionComboBox"  Height="25" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Gray" Margin="0,10,0,0">
                 <ComboBoxItem IsSelected="True">1280 * 720</ComboBoxItem>
                 <ComboBoxItem>1024 * 768</ComboBoxItem>
@@ -41,7 +57,8 @@
 
             <TextBox Name="PortField" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25"  Margin="0,20,0,0"
                   BorderBrush="Gray" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                     PreviewTextInput="PortField_PreviewTextInput" DataObject.Pasting="PortField_Pasting"/>
+                     PreviewTextInput="PortField_PreviewTextInput" DataObject.Pasting="PortField_Pasting"
+                     Text="{Binding Port, Mode=TwoWay}"/>
         </StackPanel>
     </Grid>
 
