@@ -13,8 +13,8 @@
         <TabItem Header="My cards" Background="DarkGray">
             <local:MyCardsTab x:Name="MyCardsTab"/>
         </TabItem>
-        <TabItem Header="Opponent cards" Background="DarkGray">
-            <Grid Background="DarkGray"/>
+        <TabItem Header="Card Browser" Background="DarkGray">
+            <local:BrowserTab x:Name="BrowserTab"/>
         </TabItem>
         <TabItem Header="Settings" Background="DarkGray">
             <local:SettingsTab x:Name="SettingsTab"/>

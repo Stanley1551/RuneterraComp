@@ -50,7 +50,8 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left">
-            <ComboBox Name="ResolutionComboBox"  Height="25" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Gray" Margin="0,10,0,0">
+            <ComboBox Name="ResolutionComboBox"  Height="25" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Gray" Margin="0,10,0,0"
+                      IsEnabled="False">
                 <ComboBoxItem IsSelected="True">1280 * 720</ComboBoxItem>
                 <ComboBoxItem>1024 * 768</ComboBoxItem>
             </ComboBox>
