@@ -15,13 +15,11 @@ namespace RuneterraCompanion
     /// </summary>
     public partial class App : Application
     {
-        public static UserConfiguration configuration = new UserConfiguration();
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            ConfigurationTracker.Tracker.Track(configuration);
+            //ConfigurationTracker.Tracker.Track(configuration);
         }
     }
 }

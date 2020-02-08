@@ -1,17 +1,18 @@
-﻿using System;
+﻿using RuneterraCompanion.Configuration.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RuneterraCompanion.Configuration
 {
-    public class UserConfiguration
+    public class UserConfiguration : IUserConfiguration
     {
-        public string UserName { 
+        public string UserName {
             get { return userNameValue; } 
             set { if (value != userNameValue) { userNameValue = value; } } 
         }
 
-        public string Port {
+        public int Port {
             get { return portValue; }
             set { if (value != portValue) { portValue = value; } }
         }
@@ -19,6 +20,6 @@ namespace RuneterraCompanion.Configuration
         public string ClassIdentifier => GetType().ToString();
 
         private string userNameValue;
-        private string portValue;
+        private int portValue;
     }
 }

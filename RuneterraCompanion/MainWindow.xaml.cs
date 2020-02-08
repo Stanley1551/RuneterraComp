@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RuneterraCompanion.Configuration.Interfaces;
+using SimpleInjector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +23,24 @@ namespace RuneterraCompanion
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public Container container { get; set; }
+        public IConfigurationTracker Tracker { get; set; }
+        public IUserConfiguration Configuration { get; set; }
+
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+        //}
+
+        public MainWindow(Container container)
         {
             InitializeComponent();
-        }
 
-        
+            this.container = container;
+            Tracker = container.GetInstance<IConfigurationTracker>();
+            Configuration = container.GetInstance<IUserConfiguration>();
+
+            Tracker.Tracker.Track(Configuration);
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace RuneterraCompanion
             InitializeComponent();
 
             // visszaállitani egy objektum értékeit, datacontextnek beadni!
-            DataContext = App.configuration;
+            //DataContext = App.configuration;
         }
 
         // get a reference to main windows when it is available.
@@ -76,7 +76,7 @@ namespace RuneterraCompanion
 
         private void UserNameField_LostFocus(object sender, RoutedEventArgs e)
         {
-            ConfigurationTracker.Tracker.Persist(App.configuration);
+            //ConfigurationTracker.Tracker.Persist(App.configuration);
         }
     }
 }

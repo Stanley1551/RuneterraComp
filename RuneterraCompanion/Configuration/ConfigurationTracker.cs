@@ -1,19 +1,23 @@
 ﻿using Jot;
+using RuneterraCompanion.Configuration.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RuneterraCompanion.Configuration
 {
-    public static class ConfigurationTracker
+    public class ConfigurationTracker : IConfigurationTracker
     {
-        internal static Tracker Tracker = new Tracker();
+        private Tracker Tracker = new Tracker();
 
-        static ConfigurationTracker()
+        public ConfigurationTracker()
         {
+            //TODO: nem itt kéne!
             Tracker.Configure<UserConfiguration>()
                 .Id(x => x.ClassIdentifier)
                 .Properties(x => new { x.UserName, x.Port });
         }
+
+        Tracker IConfigurationTracker.Tracker => Tracker;
     }
 }
