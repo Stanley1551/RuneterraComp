@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:RuneterraCompanion">
     <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded">
-        <Grid Visibility="Visible" Name="MainGrid">
+        <Grid Visibility="Visible" Name="MainGrid" HorizontalAlignment="Center">
             <Button Content="Check cards locally" Name="CheckCardsButton" VerticalAlignment="Center" HorizontalAlignment="Center"
                     Click="CheckCardsButton_Click" Height="30" Width="120"/>
             <ItemsControl Name="ImageList" ItemsSource="{Binding ImageList}" Visibility="Hidden">

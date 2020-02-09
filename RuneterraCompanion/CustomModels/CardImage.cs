@@ -11,14 +11,6 @@ namespace RuneterraCompanion.CustomModels
         {
             Path = path;
 
-            if(!string.IsNullOrEmpty(Path))
-            {
-                //Image = ConstructBitMapImage();
-
-                //Width = Image.Width;
-                //Height = Image.Height;
-            }
-            
         }
 
         public BitmapImage Image { get; private set; }
@@ -28,7 +20,7 @@ namespace RuneterraCompanion.CustomModels
         public double Height { get; private set; }
         //TODO generated Tooltip
 
-        private BitmapImage ConstructBitMapImage()
+        public BitmapImage ConstructBitMapImage()
         {
             BitmapImage image = new BitmapImage();
 
@@ -38,6 +30,11 @@ namespace RuneterraCompanion.CustomModels
             image.EndInit();
 
             return image;
+        }
+
+        public void SetBitMapImage()
+        {
+            Image = ConstructBitMapImage();
         }
 
     }
