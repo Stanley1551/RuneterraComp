@@ -30,21 +30,18 @@ namespace RuneterraCompanion
         public SettingsTab()
         {
             InitializeComponent();
-
+            
             // visszaállitani egy objektum értékeit, datacontextnek beadni!
-            //DataContext = App.configuration;
         }
 
-        // get a reference to main windows when it is available.
-        // The Loaded Event is set in the XAML code above.
-        private void OnControlLoaded(object sender, RoutedEventArgs e)
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            mainWindow = Window.GetWindow(this) as MainWindow;
-        }
-
-        private void AccessMainWindowsWidget()
-        {
-
+            //quick workaround
+            if (mainWindow == null)
+            {
+                mainWindow = (MainWindow)Application.Current.MainWindow;
+                DataContext = mainWindow.Configuration;
+            }
         }
 
         private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
@@ -76,7 +73,11 @@ namespace RuneterraCompanion
 
         private void UserNameField_LostFocus(object sender, RoutedEventArgs e)
         {
-            //ConfigurationTracker.Tracker.Persist(App.configuration);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
         }
     }
 }

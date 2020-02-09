@@ -28,6 +28,7 @@ namespace RuneterraCompanion
              4. copy them in the appropriate folder */
     public partial class CheckPopup : Window
     {
+        //ezeknek a constants-ban van a helye...
         private const string assetsUrl = @"https://dd.b.pvp.net/datadragon-set1-lite-en_us.zip";
         private const string assetsFile = @"datadragon-set1-lite-en_us.zip";
         private const string assetsDirectoryName = @"Assets";
@@ -49,6 +50,7 @@ namespace RuneterraCompanion
             InitializeComponent();
         }
 
+        //ez geci többször triggerelődne mielőtt be lenne zárva???
         protected override async void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -86,7 +88,6 @@ namespace RuneterraCompanion
             }
 
             CancelButton.IsEnabled = false;
-            SetProgressBarValue(100);
             OperationLabel = "Operation completed";
         }
 
