@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RuneterraCompanion.Common;
 
 namespace RuneterraCompanion
 {
@@ -28,10 +29,7 @@ namespace RuneterraCompanion
              4. copy them in the appropriate folder */
     public partial class CheckPopup : Window
     {
-        //ezeknek a constants-ban van a helye...
-        private const string assetsUrl = @"https://dd.b.pvp.net/datadragon-set1-lite-en_us.zip";
-        private const string assetsFile = @"datadragon-set1-lite-en_us.zip";
-        private const string assetsDirectoryName = @"Assets";
+        //DependencyInjection!
         private WebClient client;
     
 
@@ -77,6 +75,7 @@ namespace RuneterraCompanion
 
                 try
                 {
+                    //ez még mindig nem async!
                     HandleUnZip();
                 }
                 catch (Exception)
@@ -106,10 +105,10 @@ namespace RuneterraCompanion
 
         private void HandleUnZip()
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), assetsFile), 
-                System.IO.Path.Combine(Directory.GetCurrentDirectory(), assetsDirectoryName));
+            System.IO.Compression.ZipFile.ExtractToDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile), 
+                System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName));
 
-            File.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), assetsFile));
+            File.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile));
         }
 
         //On cancel: abort the operation, then delete the downloaded zip
@@ -124,7 +123,7 @@ namespace RuneterraCompanion
             try
             {
                 client.DownloadProgressChanged += UpdateDownloadProgress;
-                await client.DownloadFileTaskAsync(new Uri(assetsUrl), assetsFile);
+                await client.DownloadFileTaskAsync(new Uri(Constants.assetsUrl), Constants.assetsFile);
                 client.DownloadProgressChanged -= UpdateDownloadProgress;
                 client.Dispose();
             }
@@ -145,14 +144,14 @@ namespace RuneterraCompanion
         //TODO check files as well
         private bool IsDownloadNeeded()
         {
-            return !Directory.Exists(assetsDirectoryName);
+            return !Directory.Exists(Constants.assetsDirectoryName);
         }
 
         private void CreateDirectoryForFiles()
         {
             try
             {
-                Directory.CreateDirectory(assetsDirectoryName);
+                Directory.CreateDirectory(Constants.assetsDirectoryName);
             }
             catch(Exception e) { throw e; }
         }

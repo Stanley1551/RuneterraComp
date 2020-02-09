@@ -1,4 +1,5 @@
-﻿using RuneterraCompanion.Configuration.Interfaces;
+﻿using Jot.Configuration;
+using RuneterraCompanion.Configuration.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,11 @@ namespace RuneterraCompanion.Configuration
 
         private string userNameValue;
         private int portValue;
+
+        public void ConfigureTracking(TrackingConfiguration<IUserConfiguration> configuration)
+        {
+            configuration.Id(x => ClassIdentifier)
+                .Properties(x => new { x.Port, x.UserName });
+        }
     }
 }

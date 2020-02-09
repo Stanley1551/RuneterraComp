@@ -46,6 +46,7 @@ namespace RuneterraCompanion
 
         private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
         {
+            //CanPopupShow
             CheckPopup popup = new CheckPopup();
             popup.Show();
         }
@@ -72,10 +73,6 @@ namespace RuneterraCompanion
         }
 
         private void UserNameField_LostFocus(object sender, RoutedEventArgs e)
-        {
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
         {
             mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
         }

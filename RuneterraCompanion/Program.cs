@@ -15,8 +15,6 @@ namespace RuneterraCompanion
         {
             var container = CreateContainer();
 
-            // Any additional other configuration
-
             RunApplication(container);
         }
 
@@ -43,7 +41,6 @@ namespace RuneterraCompanion
             try
             {
                 var app = new App();
-                //app.InitializeComponent();
                 var mainWindow = container.GetInstance<MainWindow>();
                 //set a reference?
                 mainWindow.container = container;

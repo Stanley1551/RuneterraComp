@@ -27,6 +27,7 @@ namespace RuneterraCompanion
         public IConfigurationTracker Tracker { get; set; }
         public IUserConfiguration Configuration { get; set; }
 
+        //SimpleInjector only allows 1 constructor
         //public MainWindow()
         //{
         //    InitializeComponent();
