@@ -27,11 +27,11 @@ namespace RuneterraCompanion
 
         private Regex numberRegex = new Regex("[^0-9]+");
 
+        private bool CanPopupShow => !Application.Current.Windows.OfType<CheckPopup>().Any();
+
         public SettingsTab()
         {
             InitializeComponent();
-            
-            // visszaállitani egy objektum értékeit, datacontextnek beadni!
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -46,9 +46,11 @@ namespace RuneterraCompanion
 
         private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
         {
-            //CanPopupShow
-            CheckPopup popup = new CheckPopup();
-            popup.Show();
+            if(CanPopupShow)
+            {
+                CheckPopup popup = new CheckPopup(mainWindow.container);
+                popup.Show();
+            }
         }
 
         private void PortField_PreviewTextInput(object sender, TextCompositionEventArgs e)

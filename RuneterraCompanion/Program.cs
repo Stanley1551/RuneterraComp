@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Windows;
 using RuneterraCompanion;
 using RuneterraCompanion.Configuration;
@@ -28,7 +29,10 @@ namespace RuneterraCompanion
             container.Register<IConfigurationTracker>(() => new ConfigurationTracker(), Lifestyle.Singleton);
 
             // Windows
-            container.Register<MainWindow>(() => new MainWindow(container), Lifestyle.Singleton);
+            container.Register(() => new MainWindow(container), Lifestyle.Singleton);
+
+            //Services
+            //container.Register<WebClient>();
 
             // Verification
             container.Verify();

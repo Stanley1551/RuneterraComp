@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RuneterraCompanion.Common;
+using SimpleInjector;
 
 namespace RuneterraCompanion
 {
@@ -29,7 +31,8 @@ namespace RuneterraCompanion
              4. copy them in the appropriate folder */
     public partial class CheckPopup : Window
     {
-        //DependencyInjection!
+        //WebClientnek kéne valami scoped lifestyle...
+        private SimpleInjector.Container container;
         private WebClient client;
     
 
@@ -43,15 +46,17 @@ namespace RuneterraCompanion
             set => CheckingProgressBar.Value = value;
         }
 
-        public CheckPopup()
+        public CheckPopup(SimpleInjector.Container container)
         {
             InitializeComponent();
+
+            client = new WebClient();
+            this.container = container;
         }
 
-        //ez geci többször triggerelődne mielőtt be lenne zárva???
-        protected override async void OnActivated(EventArgs e)
+        protected override async void OnInitialized(EventArgs e)
         {
-            base.OnActivated(e);
+            base.OnInitialized(e);
 
             if (IsDownloadNeeded())
             {
@@ -59,15 +64,19 @@ namespace RuneterraCompanion
                 {
                     CreateDirectoryForFiles();
                 }
-                catch (Exception) { Dispatcher.Invoke(() => 
-                { OperationLabel = "Something went wrong during the IO operation..."; }); 
-                    return; }
+                catch (Exception)
+                {
+                    Dispatcher.Invoke(() =>
+                    { OperationLabel = "Something went wrong during the IO operation..."; });
+                    return;
+                }
 
                 try
                 {
                     await HandleDownload();
                 }
-                catch(Exception) {
+                catch (Exception)
+                {
                     Dispatcher.Invoke(() =>
                     { OperationLabel = "Something went wrong during the download operation..."; });
                     return;
@@ -81,13 +90,17 @@ namespace RuneterraCompanion
                 catch (Exception)
                 {
                     Dispatcher.Invoke(() =>
-                    { OperationLabel = "Something went wrong during the IO operation..."; });
+                    { OperationLabel = "Something went wrong during the UnZip operation..."; });
                     return;
                 }
             }
 
-            CancelButton.IsEnabled = false;
-            OperationLabel = "Operation completed";
+            SetProgressBarToCompleted();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            client.Dispose();
         }
 
         //TODO cancel on closing if download is in progress...
@@ -98,8 +111,6 @@ namespace RuneterraCompanion
 
         private async Task HandleDownload()
         {
-            client = new WebClient();
-
             await Task.Run(() => DownloadFile());
         }
 
@@ -160,6 +171,14 @@ namespace RuneterraCompanion
         {
             CheckingProgressBarPercentage = percentage;
             DownloadPercentageText.Text = percentage + "%";
+        }
+
+        private void SetProgressBarToCompleted()
+        {
+            CancelButton.IsEnabled = false;
+            CheckingProgressBarPercentage = 100;
+            DownloadPercentageText.Text = "100 %";
+            OperationLabel = "Operation completed";
         }
     }
 }
