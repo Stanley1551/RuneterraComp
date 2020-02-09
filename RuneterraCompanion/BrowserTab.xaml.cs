@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RuneterraCompanion.Common;
+using RuneterraCompanion.CustomModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,21 +24,78 @@ namespace RuneterraCompanion
     {
         private MainWindow mainWindow = null; // Reference to the MainWindow
 
+        private string[] InitialElementNames = { "CheckCardsButton" };
+        private string[] BrowserelementNames = { "ImageList" };
+
         public BrowserTab()
         {
             InitializeComponent();
         }
 
-        // get a reference to main windows when it is available.
-        // The Loaded Event is set in the XAML code above.
-        private void OnControlLoaded(object sender, RoutedEventArgs e)
+
+        private void CheckCardsButton_Click(object sender, RoutedEventArgs e)
         {
-            mainWindow = Window.GetWindow(this) as MainWindow;
+            //bevezetni valahova és megnézni a kártyákat is
+            if(Directory.Exists(Constants.assetsDirectoryName))
+            {
+                HideInitialElements();
+                ShowBrowserElements();
+            }
         }
 
-        private void AccessMainWindowsWidget()
+        private void HideInitialElements()
         {
+            foreach(var elementName in InitialElementNames)
+            {
+                var element = this.FindName(elementName) as FrameworkElement;
+                if(element != null)
+                {
+                    element.Visibility = Visibility.Hidden;
+                }
+            }
+        }
 
+        private void ShowBrowserElements()
+        {
+            foreach (var elementName in BrowserelementNames)
+            {
+                var element = this.FindName(elementName) as FrameworkElement;
+                if (element != null)
+                {
+                    element.Visibility = Visibility.Visible;
+                }
+            }
+
+            InitImages();
+        }
+
+        private void InitImages()
+        {
+            var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
+            List<CardImage> cardImages = new List<CardImage>();
+
+            foreach(var file in files)
+            {
+                cardImages.Add(new CardImage(file));
+            }
+            //performance issue here!
+            ImageList.ItemsSource = cardImages;
+        }
+
+        private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+            //quick workaround
+            if (mainWindow == null)
+            {
+                mainWindow = (MainWindow)Application.Current.MainWindow;
+            }
+
+            //bevezetni valahova és megnézni a kártyákat is
+            if (Directory.Exists(Constants.assetsDirectoryName))
+            {
+                HideInitialElements();
+                ShowBrowserElements();
+            }
         }
     }
 }

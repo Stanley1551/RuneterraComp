@@ -6,8 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:RuneterraCompanion">
     <ScrollViewer Name="CardScrollViewer">
-        <Grid>
-            <TextBlock Text="Placeholder for cards..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+        <Grid Visibility="Visible" Name="MainGrid">
+            <TextBlock Text="Placeholder for cards..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Visibility="Visible" Name="PlaceholderText"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

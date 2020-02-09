@@ -35,7 +35,7 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
             <TextBox Name="UserNameField" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Height="25"  Margin="0,10,0,0"
-                  BorderBrush="Gray" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" LostFocus="UserNameField_LostFocus"
+                  BorderBrush="Gray" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" LostFocus="TextField_LostFocus"
                   Text="{Binding UserName, Mode=TwoWay}"/>
         </StackPanel>
 
@@ -58,7 +58,7 @@
 
             <TextBox Name="PortField" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25"  Margin="0,20,0,0"
                   BorderBrush="Gray" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                     PreviewTextInput="PortField_PreviewTextInput" DataObject.Pasting="PortField_Pasting"
+                     PreviewTextInput="PortField_PreviewTextInput" DataObject.Pasting="PortField_Pasting" LostFocus="TextField_LostFocus"
                      Text="{Binding Port, Mode=TwoWay}"/>
         </StackPanel>
     </Grid>

@@ -74,7 +74,7 @@ namespace RuneterraCompanion
             }
         }
 
-        private void UserNameField_LostFocus(object sender, RoutedEventArgs e)
+        private void TextField_LostFocus(object sender, RoutedEventArgs e)
         {
             mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
         }
