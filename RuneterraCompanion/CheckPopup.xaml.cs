@@ -64,7 +64,7 @@ namespace RuneterraCompanion
                 {
                     CreateDirectoryForFiles();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Dispatcher.Invoke(() =>
                     { OperationLabel = "Something went wrong during the IO operation..."; });
@@ -75,10 +75,12 @@ namespace RuneterraCompanion
                 {
                     await HandleDownload();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Dispatcher.Invoke(() =>
-                    { OperationLabel = "Something went wrong during the download operation..."; });
+                    { OperationLabel = "Something went wrong during the download operation...";
+                        DeleteDownloadedZip();
+                    });
                     return;
                 }
 
@@ -87,7 +89,7 @@ namespace RuneterraCompanion
                     //ez még mindig nem async!
                     HandleUnZip();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Dispatcher.Invoke(() =>
                     { OperationLabel = "Something went wrong during the UnZip operation..."; });
@@ -119,6 +121,11 @@ namespace RuneterraCompanion
             System.IO.Compression.ZipFile.ExtractToDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile), 
                 System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName));
 
+            DeleteDownloadedZip();
+        }
+
+        private void DeleteDownloadedZip()
+        {
             File.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile));
         }
 
@@ -133,6 +140,10 @@ namespace RuneterraCompanion
         {
             try
             {
+                if(client == null)
+                {
+                    client = new WebClient();
+                }
                 client.DownloadProgressChanged += UpdateDownloadProgress;
                 await client.DownloadFileTaskAsync(new Uri(Constants.assetsUrl), Constants.assetsFile);
                 client.DownloadProgressChanged -= UpdateDownloadProgress;
