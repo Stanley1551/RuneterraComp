@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RuneterraCompanion.CustomModels
 {
-    public interface ICardAttribute
+    public class Card : CardImage, ICardAttribute
     {
         public List<object> associatedCards { get; set; }
         public List<object> associatedCardRefs { get; set; }
@@ -32,11 +32,7 @@ namespace RuneterraCompanion.CustomModels
         public string supertype { get; set; }
         public string type { get; set; }
         public bool collectible { get; set; }
-    }
 
-    public class Asset
-    {
-        public string gameAbsolutePath { get; set; }
-        public string fullAbsolutePath { get; set; }
+
     }
 }

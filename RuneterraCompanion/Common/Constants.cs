@@ -14,6 +14,6 @@ namespace RuneterraCompanion.Common
         internal const string assetsFile = @"datadragon-set1-lite-en_us.zip";
         internal const string assetsDirectoryName = @"Assets";
         internal const string cardImgPath = @"Assets\en_us\img\cards";
-        internal const string DataJsonPath = @"\Assets\en_us\data";
+        internal const string DataJsonPath = @"\Assets\en_us\data\set1-en_us.json";
     }
 }

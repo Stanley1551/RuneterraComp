@@ -7,10 +7,14 @@ namespace RuneterraCompanion.CustomModels
 {
     public class CardImage
     {
+        public CardImage()
+        {
+
+        }
+
         public CardImage(string path)
         {
             Path = path;
-
         }
 
         public BitmapImage Image { get; private set; }
@@ -36,7 +40,6 @@ namespace RuneterraCompanion.CustomModels
         {
             Image = ConstructBitMapImage();
         }
-
     }
 
 }

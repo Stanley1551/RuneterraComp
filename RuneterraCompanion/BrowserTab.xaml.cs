@@ -26,6 +26,8 @@ namespace RuneterraCompanion
 
         private string[] InitialElementNames = { "CheckCardsButton" };
         private string[] BrowserelementNames = { "ImageList" };
+        public string[] MockSetList = { "Ionia", "Piltover", "Feljord", };
+        
 
         public BrowserTab()
         {
