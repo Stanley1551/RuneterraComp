@@ -35,7 +35,7 @@ namespace RuneterraCompanion.CustomModels
 
             image.BeginInit();
             //On.Demand??
-            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.CacheOption = BitmapCacheOption.OnDemand;
             image.UriSource = PathUri;
             image.EndInit();
 

@@ -28,7 +28,7 @@ namespace RuneterraCompanion.Storage
         public bool IsInitialized { get; private set; }
 
         //ide lehet kéne majd egy komplex osztály ami több infót ad arról ha nem sikerül valami!
-        public async Task<bool> TryInitializeAsync()
+        public bool TryInitializeAsync()
         {
             try
             {
@@ -36,20 +36,9 @@ namespace RuneterraCompanion.Storage
                     GetFullPathDataJson));
 
                 List<Task> tasks = new List<Task>();
-                int i = 1;
                 foreach (var temp in tempAttributes)
                 {
-                    tasks.Add(
-                        Task.Run(() =>
-                        {
-                            cards.Add(temp);
-                        }));
-                    i++;
-                }
-
-                if(tasks.Count > 0)
-                {
-                    await Task.WhenAll(tasks);
+                    cards.Add(temp);
                 }
 
                 IsInitialized = true;

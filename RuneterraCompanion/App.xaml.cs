@@ -20,12 +20,12 @@ namespace RuneterraCompanion
         public CardDataStorage<Card> Storage { get; } = new CardDataStorage<Card>();
 
         //TODO az async void annyira nem jó
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             //TODO: ha nem sikeres, lekezelni
-            await Storage.TryInitializeAsync();
+            Storage.TryInitializeAsync();
         }
     }
 }
