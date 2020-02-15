@@ -24,21 +24,22 @@ namespace RuneterraCompanion.CustomModels
         public double Height { get; private set; }
         //TODO generated Tooltip
 
-        public BitmapImage ConstructBitMapImage()
+        public void SetBitMapImage()
+        {
+            Image = ConstructBitMapImage();
+        }
+
+        private BitmapImage ConstructBitMapImage()
         {
             BitmapImage image = new BitmapImage();
 
             image.BeginInit();
+            //On.Demand??
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.UriSource = PathUri;
             image.EndInit();
 
             return image;
-        }
-
-        public void SetBitMapImage()
-        {
-            Image = ConstructBitMapImage();
         }
     }
 

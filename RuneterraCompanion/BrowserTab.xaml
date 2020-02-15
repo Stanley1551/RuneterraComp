@@ -26,7 +26,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <!--image and dimensions-->
                                     <Grid Height="345">
-                                        <Image Source="{Binding Path}"/>
+                                        <Image Source="{Binding Image.Path}"/>
                                     </Grid>
                                 </StackPanel>
                             </Border>

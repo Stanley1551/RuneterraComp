@@ -1,38 +1,52 @@
-﻿using System;
+﻿using RuneterraCompanion.Common;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace RuneterraCompanion.CustomModels
 {
-    public class Card : CardImage, ICardAttribute
+    public sealed class Card : CardAttribute
     {
-        public List<object> associatedCards { get; set; }
-        public List<object> associatedCardRefs { get; set; }
-        public List<Asset> assets { get; set; }
-        public string region { get; set; }
-        public string regionRef { get; set; }
-        public int attack { get; set; }
-        public int cost { get; set; }
-        public int health { get; set; }
-        public string description { get; set; }
-        public string descriptionRaw { get; set; }
-        public string levelupDescription { get; set; }
-        public string levelupDescriptionRaw { get; set; }
-        public string flavorText { get; set; }
-        public string artistName { get; set; }
-        public string name { get; set; }
-        public string cardCode { get; set; }
-        public List<object> keywords { get; set; }
-        public List<object> keywordRefs { get; set; }
-        public string spellSpeed { get; set; }
-        public string spellSpeedRef { get; set; }
-        public string rarity { get; set; }
-        public string rarityRef { get; set; }
-        public string subtype { get; set; }
-        public string supertype { get; set; }
-        public string type { get; set; }
-        public bool collectible { get; set; }
+        public CardImage Image { get {
+                if (this.image == null)
+                {
+                    SetImage(Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath,this.cardCode + ".png"));
+                }
+                return image;
+            } }
 
+        public Card()
+        {
 
+        }
+
+        public void SetAttributes(CardAttribute attr)
+        {
+            if(attr != null)
+            {
+                foreach (var field in attr.GetType().GetProperties())
+                {
+                    var attrValue = field.GetValue(attr);
+                    var newValue = this.GetType().GetProperty(field.Name);
+                    if(attrValue != null)
+                    {
+                        newValue.SetValue(this, attrValue);
+                    }
+                }
+            }
+        }
+
+        public void SetImage(string path)
+        {
+            image = new CardImage(path);
+        }
+
+        //public Card(string path)
+        //{
+        //    SetImage(path);
+        //}
+
+        private CardImage image;
     }
 }

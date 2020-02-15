@@ -1,10 +1,11 @@
-﻿using System;
+﻿using RuneterraCompanion.CustomModels.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RuneterraCompanion.CustomModels
 {
-    public interface ICardAttribute
+    public class CardAttribute : ICardAttribute
     {
         public List<object> associatedCards { get; set; }
         public List<object> associatedCardRefs { get; set; }

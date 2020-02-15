@@ -15,7 +15,6 @@ namespace RuneterraCompanion
         public static void Main()
         {
             var container = CreateContainer();
-
             RunApplication(container);
         }
 

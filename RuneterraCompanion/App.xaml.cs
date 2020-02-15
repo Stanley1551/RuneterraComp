@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Jot;
 using RuneterraCompanion.Configuration;
+using RuneterraCompanion.CustomModels;
+using RuneterraCompanion.Storage;
 
 namespace RuneterraCompanion
 {
@@ -15,9 +17,15 @@ namespace RuneterraCompanion
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public CardDataStorage<Card> Storage { get; } = new CardDataStorage<Card>();
+
+        //TODO az async void annyira nem jó
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            //TODO: ha nem sikeres, lekezelni
+            await Storage.TryInitializeAsync();
         }
     }
 }

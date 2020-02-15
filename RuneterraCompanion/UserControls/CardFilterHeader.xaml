@@ -6,13 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:RuneterraCompanion.UserControls">
     <WrapPanel Orientation="Horizontal" Height="50">
-        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Left">
+        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Left" Text="Regions">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox IsChecked="True"
                        Width="20" />
-                        <TextBlock Text="{Binding SetList}"
+                        <TextBlock Text="{Binding MockSetList}"
                        Width="100" />
                     </StackPanel>
                 </DataTemplate>
@@ -31,8 +31,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock Text="Placeholder for card filters"/>
-
+        
     </WrapPanel>
 
 </UserControl>

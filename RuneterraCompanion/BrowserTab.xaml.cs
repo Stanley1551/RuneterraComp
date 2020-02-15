@@ -26,8 +26,6 @@ namespace RuneterraCompanion
 
         private string[] InitialElementNames = { "CheckCardsButton" };
         private string[] BrowserelementNames = { "ImageList" };
-        public string[] MockSetList = { "Ionia", "Piltover", "Feljord", };
-        
 
         public BrowserTab()
         {
@@ -73,16 +71,28 @@ namespace RuneterraCompanion
 
         private void InitImages()
         {
-            var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
-            List<CardImage> cardImages = new List<CardImage>();
+            var list = ((App)Application.Current).Storage.GetAll();
 
-            foreach(var file in files)
-            {
-                cardImages.Add(new CardImage(file));
-            }
-            //performance issue here!
-            ImageList.ItemsSource = cardImages;
+            ImageList.ItemsSource = list;
         }
+
+        //private void InitImages()
+        //{
+        //    var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
+        //    List<Card> Cards = new List<Card>();
+
+        //    foreach(var file in files)
+        //    {
+        //        Card card = new Card();
+        //        string cardCode = System.IO.Path.GetFileNameWithoutExtension(file);
+        //        CardAttribute cardAttr = ((App)Application.Current).Storage.GetByCode(cardCode);
+        //        card.SetAttributes(cardAttr);
+        //        card.Image = new CardImage(file);
+        //        Cards.Add(card);
+        //    }
+        //    //performance issue here!
+        //    ImageList.ItemsSource = Cards;
+        //}
 
         private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {

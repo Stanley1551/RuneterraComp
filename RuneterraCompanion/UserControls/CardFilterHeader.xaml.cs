@@ -25,6 +25,8 @@ namespace RuneterraCompanion.UserControls
     {
         private MainWindow mainWindow = null; // Reference to the MainWindow
 
+        public string[] MockSetList = { "Ionia", "Piltover", "Feljord", };
+
         public CardFilterHeader()
         {
             InitializeComponent();
