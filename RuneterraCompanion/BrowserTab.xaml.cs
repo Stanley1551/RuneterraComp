@@ -76,24 +76,6 @@ namespace RuneterraCompanion
             ImageList.ItemsSource = list;
         }
 
-        //private void InitImages()
-        //{
-        //    var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
-        //    List<Card> Cards = new List<Card>();
-
-        //    foreach(var file in files)
-        //    {
-        //        Card card = new Card();
-        //        string cardCode = System.IO.Path.GetFileNameWithoutExtension(file);
-        //        CardAttribute cardAttr = ((App)Application.Current).Storage.GetByCode(cardCode);
-        //        card.SetAttributes(cardAttr);
-        //        card.Image = new CardImage(file);
-        //        Cards.Add(card);
-        //    }
-        //    //performance issue here!
-        //    ImageList.ItemsSource = Cards;
-        //}
-
         private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
             //quick workaround

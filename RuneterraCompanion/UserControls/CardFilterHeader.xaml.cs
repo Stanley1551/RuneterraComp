@@ -25,11 +25,66 @@ namespace RuneterraCompanion.UserControls
     {
         private MainWindow mainWindow = null; // Reference to the MainWindow
 
-        public string[] MockSetList = { "Ionia", "Piltover", "Feljord", };
+        private List<ComboRow> regions;
+        private List<ComboRow> types;
+        private List<ComboRow> rarities;
+
+        private bool AreComboboxesPopulated => regions != null && regions.Count > 0 &&
+                                               types != null && types.Count > 0 &&
+                                               rarities != null && rarities.Count > 0;
 
         public CardFilterHeader()
         {
             InitializeComponent();
+        }
+
+        private void SetItemSources()
+        {
+            RegionComboBox.ItemsSource = regions;
+            RarityComboBox.ItemsSource = rarities;
+            TypeComboBox.ItemsSource = types;
+        }
+
+        private void PopulateLists()
+        {
+            regions = ConstructComboRowList(((App)Application.Current).Storage.Regions);
+            types = ConstructComboRowList(((App)Application.Current).Storage.Types);
+            rarities = ConstructComboRowList(((App)Application.Current).Storage.Rarities);
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (((App)Application.Current) != null && !AreComboboxesPopulated)
+            {
+                PopulateLists();
+                SetItemSources();
+            }
+        }
+
+        private List<ComboRow> ConstructComboRowList(List<string> list)
+        {
+            List<ComboRow> retVal = new List<ComboRow>();
+            list.ForEach(x => retVal.Add(new ComboRow(x)));
+
+            return retVal;
+        }
+    }
+
+    public class ComboRow
+    {
+        public bool IsSelected { get; set; }
+        public string Text { get; set; }
+
+        public ComboRow(string text)
+        {
+            Text = text;
+            IsSelected = true;
+        }
+
+        public ComboRow(string text, bool selected)
+        {
+            Text = text;
+            IsSelected = selected;
         }
     }
 }

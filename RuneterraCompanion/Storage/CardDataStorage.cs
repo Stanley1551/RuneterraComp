@@ -18,14 +18,49 @@ namespace RuneterraCompanion.Storage
     {
         private List<T> cards;
         private string GetFullPathDataJson => Path.Combine(Directory.GetCurrentDirectory(), Constants.DataJsonPath);
+        private List<string> regions;
+        private List<string> types = new List<string> { "Unit", "Spell" }; //jobb esetben :)
+        private List<string> rarities;
 
         public CardDataStorage()
         {
             cards = new List<T>();
             IsInitialized = false;
+            regions = new List<string>();
+            rarities = new List<string>();
         }
 
         public bool IsInitialized { get; private set; }
+
+        public List<string> Regions { get {
+                if(regions.Count != 0)
+                {
+                    return regions;
+                }
+                else
+                {
+                    InitializeRegions();
+                    return regions;
+                }
+            } }
+
+        public List<string> Types { get {
+                return types;
+            } }
+
+        public List<string> Rarities { get {
+                if(rarities.Count != 0)
+                {
+                    return rarities;
+                }
+                else
+                {
+                    InitializeRarities();
+                    return rarities;
+                }
+            } }
+
+        //TODO: add cost property
 
         //ide lehet kéne majd egy komplex osztály ami több infót ad arról ha nem sikerül valami!
         public bool TryInitializeAsync()
@@ -71,25 +106,31 @@ namespace RuneterraCompanion.Storage
             });
         }
 
-        //SZAR!
-        //public List<T> GetByFilter(CardFilterProperty filter)
-        //{
-        //    //return cards.FindAll(x => 
-        //    //    (filter.attack != -1 ? x.attack == filter.attack : x.attack >= 0) &&
-        //    //    filter.cardCode != string.Empty ? x.cardCode == filter.cardCode : x.cardCode.Length > 0 &&
-        //    //    filter.cost != -1 ? x.cost == filter.cost : x.cost >= 0 &&
-        //    //    filter.health != -1 ? x.health == filter.health : x.health >= 0 &&
-        //    //    filter.name != string.Empty ? x.name == filter.name : x.name.Length >= 0 &&
-        //    //    filter.rarity != string.Empty ? x.rarity == filter.rarity : x.rarity.Length >= 0 &&
-        //    //    filter.region != string.Empty ? x.region == filter.region : x.region.Length >= 0 &&
-        //    //    filter.type != string.Empty ? x.type == filter.type : x.type.Length >= 0
-        //    //    );
-        //    return cards.FindAll(x => x.attack == 9);
-        //}
-
         public List<T> GetByFilter(Predicate<T> match)
         {
             return cards.FindAll(match);
+        }
+
+        private void InitializeRegions()
+        {
+            foreach(var card in cards)
+            {
+                if(!regions.Contains(card.region))
+                {
+                    regions.Add(card.region);
+                }
+            }
+        }
+
+        private void InitializeRarities()
+        {
+            foreach (var card in cards)
+            {
+                if (!rarities.Contains(card.rarity))
+                {
+                    rarities.Add(card.rarity);
+                }
+            }
         }
     }
 }

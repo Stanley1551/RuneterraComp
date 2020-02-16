@@ -18,14 +18,29 @@ namespace RuneterraCompanion.CustomModels.Filter
 
         public CardFilterProperty()
         {
-            name = string.Empty;
-            cardCode = string.Empty;
-            type = string.Empty;
-            health = -1;
-            cost = -1;
-            attack = -1;
-            region = string.Empty;
-            rarity = string.Empty;
+            name = nameInitValue;
+            cardCode = cardCodeInitValue;
+            type = typeInitValue;
+            health = healthInitValue;
+            cost = costInitValue;
+            attack = attackInitValue;
+            region = regionInitValue;
+            rarity = rarityInitValue;
         }
+
+        //public Predicate<ICardAttribute> ToPredicate()
+        //{
+        //    Predicate<ICardAttribute> pred = 
+        //    pred.
+        //}
+
+        private const string nameInitValue = "";
+        private const string cardCodeInitValue = "";
+        private const string typeInitValue = "";
+        private const int costInitValue = -1;
+        private const int healthInitValue = -1;
+        private const int attackInitValue = -1;
+        private const string regionInitValue = "";
+        private const string rarityInitValue = "";
     }
 }
