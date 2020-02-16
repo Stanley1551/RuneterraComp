@@ -38,6 +38,21 @@ namespace RuneterraCompanion.UserControls
             InitializeComponent();
         }
 
+        public List<string> GetSelectedRegions()
+        {
+            return regions.FindAll(x => x.IsSelected).Select(x => x.Text).ToList();
+        }
+
+        public List<string> GetSelectedTypes()
+        {
+            return types.FindAll(x => x.IsSelected).Select(x => x.Text).ToList();
+        }
+
+        public List<string> GetSelectedRarities()
+        {
+            return rarities.FindAll(x => x.IsSelected).Select(x => x.Text).ToList();
+        }
+
         private void SetItemSources()
         {
             RegionComboBox.ItemsSource = regions;
@@ -67,6 +82,16 @@ namespace RuneterraCompanion.UserControls
             list.ForEach(x => retVal.Add(new ComboRow(x)));
 
             return retVal;
+        }
+
+        private void RegionCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach(var item in GetSelectedRegions())
+            {
+                sb.Append(item + " ");
+            }
+            RegionComboBox.Text = sb.ToString();
         }
     }
 

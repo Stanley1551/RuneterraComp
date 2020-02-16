@@ -65,6 +65,7 @@ namespace RuneterraCompanion.Storage
         //ide lehet kéne majd egy komplex osztály ami több infót ad arról ha nem sikerül valami!
         public bool TryInitializeAsync()
         {
+            //ez is csúnya
             try
             {
                 List<T> tempAttributes = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(
@@ -90,7 +91,11 @@ namespace RuneterraCompanion.Storage
             {
                 return cards;
             }
-            else return new List<T>();
+            else
+            {
+                TryInitializeAsync();
+                return cards;
+            };
         }
 
         public T GetByCode(string cardCode)

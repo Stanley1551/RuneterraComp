@@ -6,8 +6,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:RuneterraCompanion.UserControls"
     Loaded="UserControl_Loaded">
+    
     <WrapPanel Orientation="Horizontal" Height="50">
-        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Left" Name="RegionComboBox">
+        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Left" Name="RegionComboBox" SelectedIndex="0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Path=IsSelected}" Name="RegionCheckBox"
+                       Width="20" Checked="RegionCheckBox_Checked" Unchecked="RegionCheckBox_Checked"/>
+                        <TextBlock Text="{Binding Path=Text}"
+                       Width="100" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Center" Name="TypeComboBox" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -20,20 +34,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Center" Name="TypeComboBox">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Path=IsSelected}"
-                       Width="20" />
-                        <TextBlock Text="{Binding Path=Text}"
-                       Width="100" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
-        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Center" Name="RarityComboBox">
+        <ComboBox Margin="5,5,5,5" HorizontalAlignment="Center" Name="RarityComboBox" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

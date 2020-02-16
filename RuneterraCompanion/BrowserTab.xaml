@@ -5,10 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:RuneterraCompanion"
-    xmlns:localControl="clr-namespace:RuneterraCompanion.UserControls">
+    xmlns:localControl="clr-namespace:RuneterraCompanion.UserControls"
+    Unloaded="UserControl_Unloaded">
     
     <DockPanel>
-        <localControl:CardFilterHeader DockPanel.Dock="Top"/>
+        <localControl:CardFilterHeader DockPanel.Dock="Top" x:Name="CardFilterHeaderControl"/>
         <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded">
             
             <Grid Visibility="Visible" Name="MainGrid" HorizontalAlignment="Center">

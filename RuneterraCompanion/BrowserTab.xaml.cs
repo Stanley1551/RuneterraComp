@@ -27,11 +27,32 @@ namespace RuneterraCompanion
         private string[] InitialElementNames = { "CheckCardsButton" };
         private string[] BrowserelementNames = { "ImageList" };
 
+        public List<Card> Cards;
+
         public BrowserTab()
         {
             InitializeComponent();
         }
 
+        private void SubscribeToEvents()
+        {
+            CardFilterHeaderControl.FilterButton.Click += FilterButton_Click;
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            CardFilterHeaderControl.FilterButton.Click -= FilterButton_Click;
+        }
+
+        //CardFilterHeaderControl dropdownjaira egy selected eventet itt felülirni és tárolni a selected elemeket!
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            Cards = ((App)Application.Current).Storage.GetByFilter(x => CardFilterHeaderControl.GetSelectedRegions().Contains(x.region) &&
+                                                                        CardFilterHeaderControl.GetSelectedRarities().Contains(x.rarity) &&
+                                                                        CardFilterHeaderControl.GetSelectedTypes().Contains(x.type));
+            //TODO miért csak igy frissül?
+            ImageList.ItemsSource = Cards;
+        }
 
         private void CheckCardsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -71,9 +92,9 @@ namespace RuneterraCompanion
 
         private void InitImages()
         {
-            var list = ((App)Application.Current).Storage.GetAll();
+            Cards = ((App)Application.Current).Storage.GetAll();
 
-            ImageList.ItemsSource = list;
+            ImageList.ItemsSource = Cards;
         }
 
         private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
@@ -90,6 +111,13 @@ namespace RuneterraCompanion
                 HideInitialElements();
                 ShowBrowserElements();
             }
+
+            SubscribeToEvents();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnsubscribeFromEvents();
         }
     }
 }
