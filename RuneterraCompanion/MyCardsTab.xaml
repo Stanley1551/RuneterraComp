@@ -4,10 +4,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:RuneterraCompanion">
-    <ScrollViewer Name="CardScrollViewer">
-        <Grid Visibility="Visible" Name="MainGrid">
-            <TextBlock Text="Placeholder for cards..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Visibility="Visible" Name="PlaceholderText"/>
-        </Grid>
-    </ScrollViewer>
+    xmlns:local="clr-namespace:RuneterraCompanion"
+    xmlns:localControl="clr-namespace:RuneterraCompanion.UserControls">
+    <DockPanel>
+        <localControl:CardFilterHeader DockPanel.Dock="Top" x:Name="CardFilterHeaderControl"/>
+        <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded">
+
+            <Grid Visibility="Visible" Name="MainGrid" HorizontalAlignment="Center">
+                <Button Content="Start match" Name="StartMatchButton" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Click="StartMatchButton_Click" Height="30" Width="120"/>
+                <ItemsControl Name="ImageList" ItemsSource="{Binding ImageList}" Visibility="Hidden">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <!--image and dimensions-->
+                                    <Grid Height="345">
+                                        <Image Source="{Binding Image.Path}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

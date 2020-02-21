@@ -38,5 +38,15 @@ namespace RuneterraCompanion
         {
 
         }
+
+        private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StartMatchButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -87,7 +87,7 @@ namespace RuneterraCompanion
                 }
             }
 
-            InitImages();
+            //InitImages();
         }
 
         private void InitImages()
