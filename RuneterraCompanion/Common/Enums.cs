@@ -4,15 +4,15 @@ using System.Text;
 
 namespace RuneterraCompanion.Common
 {
-    internal static class Enums
+    public static class Enums
     {
-        internal enum RequestType
+        public enum RequestType
         {
             StaticDeckList = 1,
             PositionalRectangles = 2
         };
 
-        internal enum Regions
+        public enum Regions
         {
             Demacia = 1,
             Freljord = 2,
@@ -23,13 +23,13 @@ namespace RuneterraCompanion.Common
             All = 7
         };
 
-        internal enum CardType
+        public enum CardType
         {
             Spell = 1,
             Unit = 2
         };
 
-        internal enum Rarity
+        public enum Rarity
         {
             Common = 1,
             Rare = 2,

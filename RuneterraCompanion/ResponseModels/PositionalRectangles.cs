@@ -2,14 +2,43 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using RuneterraCompanion.ResponseModels.Interfaces;
 
 namespace RuneterraCompanion.ResponseModels
 {
-    public class PositionalRectangles
+    public class PositionalRectangles : IGameResponse
     {
-        [JsonProperty("DeckCode")]
-        public string DeckCode { get; set; }
-        [JsonProperty("CardsInDeck")]
-        public Dictionary<string, int> CardsInDeck { get; set; }
+        [JsonProperty("PlayerName")]
+        public string PlayerName { get; set; }
+        [JsonProperty("OpponentName")]
+        public string OpponentName { get; set; }
+        [JsonProperty("GameState")]
+        public string GameState { get; set; }
+        [JsonProperty("Screen")]
+        public Screen Screen { get; set; }
+        [JsonProperty("Rectangles")]
+        public List<Rectangle> Rectangles { get; set; }
+        [JsonIgnore]
+        public bool IsSuccess { get; set; }
     }
+
+    [JsonObject("Screen")]
+    public class Screen
+    {
+        public int ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
+    }
+
+    [JsonObject("Rectangle")]
+    public class Rectangle
+    {
+        public int CardID { get; set; }
+        public string CardCode { get; set; }
+        public int TopLeftX { get; set; }
+        public int TopLeftY { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public bool LocalPlayer { get; set; }
+    }
+
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using RuneterraCompanion.Common;
+using RuneterraCompanion.Factory;
+using RuneterraCompanion.ResponseModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,9 +47,11 @@ namespace RuneterraCompanion
 
         }
 
-        private void StartMatchButton_Click(object sender, RoutedEventArgs e)
+        private async void StartMatchButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var result = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
+            ImageList.ItemsSource = result.ConvertToCardList();
+            ImageList.Visibility = Visibility.Visible;
         }
     }
 }
