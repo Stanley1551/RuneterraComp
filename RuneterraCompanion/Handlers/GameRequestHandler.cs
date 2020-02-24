@@ -17,30 +17,73 @@ namespace RuneterraCompanion.Handlers
     {
         public async Task<StaticDeckList> GetStaticDeckList()
         {
-            using (WebClient client = new WebClient())
+            StaticDeckList deckList = new StaticDeckList();
+
+            try
             {
-                try
-                {
-                    var result = await client.DownloadStringTaskAsync(StaticDeckListUrl);
-                    var retVal = JsonConvert.DeserializeObject<StaticDeckList>(result);
-                    retVal.IsSuccess = true;
-                    return retVal;
-                }
-                catch(WebException)
-                {
-                    return new StaticDeckList()
-                    {
-                        IsSuccess = false
-                    };
-                }
+                var response = await MakeRequest(StaticDeckListUrl);
+                deckList = DeserializeBody<StaticDeckList>(response);
+                deckList.IsSuccess = true;
             }
+            catch(Exception)
+            {
+                deckList.IsSuccess = false;
+            }
+
+            return deckList;
         }
 
         public async Task<PositionalRectangles> GetPositionalRectangles()
         {
+            PositionalRectangles rectangles = new PositionalRectangles();
+
+            try
+            {
+                var response = await MakeRequest(PositionalRectanglesUrl);
+                rectangles = DeserializeBody<PositionalRectangles>(response);
+                rectangles.IsSuccess = true;
+            }
+            catch (Exception)
+            {
+                rectangles.IsSuccess = false;
+            }
+
+            return rectangles;
+        }
+
+        private async Task<string> MakeRequest(string url)
+        {
+            string responseBody = string.Empty;
+
             using (WebClient client = new WebClient())
             {
-                return JsonConvert.DeserializeObject<PositionalRectangles>(await client.DownloadStringTaskAsync(PositionalRectanglesUrl));
+                try
+                {
+                    responseBody = await client.DownloadStringTaskAsync(url);
+                }
+                catch (WebException e)
+                {
+                    //TODO? Game is not started or port is not configured
+                    throw e;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            return responseBody;
+        }
+
+        private T DeserializeBody<T>(string body)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(body);
+            }
+            catch(Exception e)
+            {
+                throw e;
             }
         }
 

@@ -22,5 +22,10 @@ namespace RuneterraCompanion.Factory
                     throw new ArgumentException();
             }
         }
+
+        public static async Task<IGameResponse> Post(Enums.RequestType type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
