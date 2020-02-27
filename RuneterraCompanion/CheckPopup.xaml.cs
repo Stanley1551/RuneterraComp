@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RuneterraCompanion.Common;
+using RuneterraCompanion.Helpers;
 using SimpleInjector;
 
 namespace RuneterraCompanion
@@ -88,6 +89,8 @@ namespace RuneterraCompanion
                 {
                     //ez még mindig nem async!
                     HandleUnZip();
+
+                    await HandleImageDowngrade();
                 }
                 catch (Exception ex)
                 {
@@ -114,6 +117,31 @@ namespace RuneterraCompanion
         private async Task HandleDownload()
         {
             await Task.Run(() => DownloadFile());
+        }
+
+        private async Task HandleImageDowngrade()
+        {
+            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardThumbnailPath));
+
+            Dispatcher.Invoke(() => {
+                OperationLabel = "Creating thumbnails...";
+            });
+
+            await Task.Run(() => DownGradeImages());
+        }
+
+        private void DownGradeImages()
+        {
+            var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
+            var imageHelper = new ImageHelper();
+
+            foreach (var img in files)
+            {
+                var filename = System.IO.Path.GetFileNameWithoutExtension(img);
+                var newPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardThumbnailPath, filename+".png");
+
+                imageHelper.SaveImage(newPath, img, 15);
+            }
         }
 
         private void HandleUnZip()

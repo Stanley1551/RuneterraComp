@@ -11,7 +11,7 @@ namespace RuneterraCompanion.CustomModels
         public CardImage Image { get {
                 if (this.image == null)
                 {
-                    SetImage(Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath,this.cardCode + ".png"));
+                    SetImage(Path.Combine(Directory.GetCurrentDirectory(), Constants.cardThumbnailPath,this.cardCode + ".png"));
                 }
                 return image;
             } }

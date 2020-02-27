@@ -8,7 +8,8 @@
     xmlns:localControl="clr-namespace:RuneterraCompanion.UserControls">
     <DockPanel>
         <localControl:CardFilterHeader DockPanel.Dock="Top" x:Name="CardFilterHeaderControl"/>
-        <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded">
+        <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded"
+                      Unloaded="UserControl_Unloaded">
 
             <Grid Visibility="Visible" Name="MainGrid" HorizontalAlignment="Center">
                 <Button Content="Start match" Name="StartMatchButton" VerticalAlignment="Center" HorizontalAlignment="Center"

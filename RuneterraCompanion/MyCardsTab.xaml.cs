@@ -1,4 +1,5 @@
 ﻿using RuneterraCompanion.Common;
+using RuneterraCompanion.CustomModels;
 using RuneterraCompanion.Factory;
 using RuneterraCompanion.ResponseModels;
 using System;
@@ -23,6 +24,8 @@ namespace RuneterraCompanion
 {
     public partial class MyCardsTab : UserControl
     {
+        public List<Card> Cards;
+
         private MainWindow mainWindow = null; // Reference to the MainWindow
 
         public MyCardsTab()
@@ -37,21 +40,43 @@ namespace RuneterraCompanion
             mainWindow = Window.GetWindow(this) as MainWindow;
         }
 
-        private void AccessMainWindowsWidget()
-        {
-
-        }
-
         private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
+            SubscribeToEvents();
+        }
 
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnsubscribeFromEvents();
         }
 
         private async void StartMatchButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO handle match not started!
             var result = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
-            ImageList.ItemsSource = result.ConvertToCardList();
+            Cards = result.ConvertToCardList();
+            ImageList.ItemsSource = Cards;
             ImageList.Visibility = Visibility.Visible;
+        }
+
+        private void SubscribeToEvents()
+        {
+            CardFilterHeaderControl.FilterButton.Click += FilterButton_Click;
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            CardFilterHeaderControl.FilterButton.Click -= FilterButton_Click;
+        }
+
+        //CardFilterHeaderControl dropdownjaira egy selected eventet itt felülirni és tárolni a selected elemeket!
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            Cards = ((App)Application.Current).Storage.GetByFilter(x => CardFilterHeaderControl.GetSelectedRegions().Contains(x.region) &&
+                                                                        CardFilterHeaderControl.GetSelectedRarities().Contains(x.rarity) &&
+                                                                        CardFilterHeaderControl.GetSelectedTypes().Contains(x.type));
+            //TODO miért csak igy frissül?
+            ImageList.ItemsSource = Cards;
         }
     }
 }
