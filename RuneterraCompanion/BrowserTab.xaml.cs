@@ -50,8 +50,16 @@ namespace RuneterraCompanion
             Cards = ((App)Application.Current).Storage.GetByFilter(x => CardFilterHeaderControl.GetSelectedRegions().Contains(x.region) &&
                                                                         CardFilterHeaderControl.GetSelectedRarities().Contains(x.rarity) &&
                                                                         CardFilterHeaderControl.GetSelectedTypes().Contains(x.type));
+            SortItemSource();
+
             //TODO miért csak igy frissül?
             ImageList.ItemsSource = Cards;
+        }
+
+        private void SortItemSource()
+        {
+            //TODO
+            Cards.Sort((x, y) => x.cost - y.cost);
         }
 
         private void CheckCardsButton_Click(object sender, RoutedEventArgs e)
