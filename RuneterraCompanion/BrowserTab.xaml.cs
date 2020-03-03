@@ -27,21 +27,44 @@ namespace RuneterraCompanion
         private string[] InitialElementNames = { "CheckCardsButton" };
         private string[] BrowserelementNames = { "ImageList" };
 
-        public List<Card> Cards;
+        public List<Card> Cards {
+            get {
+                return (List<Card>)ImageList.ItemsSource;
+            }
+            set {
+                if (value.Count > 0)
+                {
+                    ImageList.ItemsSource = value;
+                    CardFilterHeaderControl.SortingComboBox.IsEnabled = true;
+                }
+                else
+                {
+                    ImageList.Items.Clear();
+                }
+                ImageList.Items.Refresh();
+            }
+        }
 
         public BrowserTab()
         {
             InitializeComponent();
         }
 
+        private void ManualImageListRefresh()
+        {
+            ImageList.Items.Refresh();
+        }
+
         private void SubscribeToEvents()
         {
             CardFilterHeaderControl.FilterButton.Click += FilterButton_Click;
+            CardFilterHeaderControl.SortingComboBox.SelectionChanged += SortingComboBox_SelectionChanged;
         }
 
         private void UnsubscribeFromEvents()
         {
             CardFilterHeaderControl.FilterButton.Click -= FilterButton_Click;
+            CardFilterHeaderControl.SortingComboBox.SelectionChanged -= SortingComboBox_SelectionChanged;
         }
 
         //CardFilterHeaderControl dropdownjaira egy selected eventet itt felülirni és tárolni a selected elemeket!
@@ -50,16 +73,26 @@ namespace RuneterraCompanion
             Cards = ((App)Application.Current).Storage.GetByFilter(x => CardFilterHeaderControl.GetSelectedRegions().Contains(x.region) &&
                                                                         CardFilterHeaderControl.GetSelectedRarities().Contains(x.rarity) &&
                                                                         CardFilterHeaderControl.GetSelectedTypes().Contains(x.type));
-            SortItemSource();
-
-            //TODO miért csak igy frissül?
-            ImageList.ItemsSource = Cards;
         }
 
-        private void SortItemSource()
+        private void SortingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TODO
-            Cards.Sort((x, y) => x.cost - y.cost);
+            if(Cards.Count > 0)
+            {
+                switch (e.AddedItems[0].ToString())
+                {
+                    case "Health":
+                        Cards.Sort((x, y) => x.health - y.health);
+                        break;
+                    case "Cost":
+                        Cards.Sort((x, y) => x.cost - y.cost);
+                        break;
+                    case "Attack":
+                        Cards.Sort((x, y) => x.attack - y.attack);
+                        break;
+                }
+                ManualImageListRefresh();
+            }
         }
 
         private void CheckCardsButton_Click(object sender, RoutedEventArgs e)
@@ -94,15 +127,6 @@ namespace RuneterraCompanion
                     element.Visibility = Visibility.Visible;
                 }
             }
-
-            //InitImages();
-        }
-
-        private void InitImages()
-        {
-            Cards = ((App)Application.Current).Storage.GetAll();
-
-            ImageList.ItemsSource = Cards;
         }
 
         private void CardScrollViewer_Loaded(object sender, RoutedEventArgs e)

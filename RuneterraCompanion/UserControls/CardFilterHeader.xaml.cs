@@ -33,9 +33,12 @@ namespace RuneterraCompanion.UserControls
                                                types != null && types.Count > 0 &&
                                                rarities != null && rarities.Count > 0;
 
+        private List<string> SortingValues = new List<string>() { "Cost", "Attack", "Health" };
+
         public CardFilterHeader()
         {
             InitializeComponent();
+            SortingComboBox.ItemsSource = SortingValues; 
         }
 
         public List<string> GetSelectedRegions()

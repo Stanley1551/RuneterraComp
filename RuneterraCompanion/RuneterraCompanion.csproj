@@ -27,6 +27,9 @@
     <Page Update="CheckPopup.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="UserControls\MatchControllingHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UserControls\CardFilterHeader.xaml">
       <SubType>Designer</SubType>
     </Page>

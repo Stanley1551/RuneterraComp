@@ -8,13 +8,12 @@
     xmlns:localControl="clr-namespace:RuneterraCompanion.UserControls">
     <DockPanel>
         <localControl:CardFilterHeader DockPanel.Dock="Top" x:Name="CardFilterHeaderControl"/>
+        <localControl:MatchControllingHeader DockPanel.Dock="Top" x:Name="MatchControllHeader"/>
         <ScrollViewer Name="CardScrollViewer" Loaded="CardScrollViewer_Loaded"
                       Unloaded="UserControl_Unloaded">
 
             <Grid Visibility="Visible" Name="MainGrid" HorizontalAlignment="Center">
-                <Button Content="Start match" Name="StartMatchButton" VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Click="StartMatchButton_Click" Height="30" Width="120"/>
-                <ItemsControl Name="ImageList" ItemsSource="{Binding ImageList}" Visibility="Hidden">
+                <ItemsControl Name="ImageList" ItemsSource="{Binding ImageList}" Visibility="Visible">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
