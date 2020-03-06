@@ -27,7 +27,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox IsChecked="{Binding Path=IsSelected}" Name="RegionCheckBox"
-                       Width="20" Checked="RegionCheckBox_Checked" Unchecked="RegionCheckBox_Checked"/>
+                       Width="20"/>
                         <TextBlock Text="{Binding Path=Text}"
                        Width="100" />
                     </StackPanel>

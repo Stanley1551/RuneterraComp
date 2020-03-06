@@ -86,16 +86,6 @@ namespace RuneterraCompanion.UserControls
 
             return retVal;
         }
-
-        private void RegionCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach(var item in GetSelectedRegions())
-            {
-                sb.Append(item + " ");
-            }
-            RegionComboBox.Text = sb.ToString();
-        }
     }
 
     public class ComboRow
