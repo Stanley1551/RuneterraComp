@@ -24,8 +24,7 @@ namespace RuneterraCompanion
     public partial class MainWindow : Window
     {
         public Container container { get; set; }
-        public IConfigurationTracker Tracker { get; set; }
-        public IUserConfiguration Configuration { get; set; }
+        
 
         //SimpleInjector only allows 1 constructor
         //public MainWindow()
@@ -38,10 +37,10 @@ namespace RuneterraCompanion
             InitializeComponent();
 
             this.container = container;
-            Tracker = container.GetInstance<IConfigurationTracker>();
-            Configuration = container.GetInstance<IUserConfiguration>();
+            //Tracker = container.GetInstance<IConfigurationTracker>();
+            //Configuration = container.GetInstance<IUserConfiguration>();
 
-            Tracker.Tracker.Track(Configuration);
+            //Tracker.Tracker.Track(Configuration);
         }
     }
 }

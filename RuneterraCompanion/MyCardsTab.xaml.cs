@@ -70,8 +70,8 @@ namespace RuneterraCompanion
         private async void StartMatchButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO handle match not started!
-            var result = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
-            Cards = result.ConvertToCardList();
+            
+            await Task.Run(PollGameState);
         }
 
         private void SortingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,6 +117,62 @@ namespace RuneterraCompanion
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
             //Cards = Cards.Select(x => x.)
+        }
+
+        private async Task PollGameState()
+        {
+            string gameState = string.Empty;
+
+            var initial = await GameRequestFactory.Get(Enums.RequestType.PositionalRectangles) as PositionalRectangles;
+            gameState = initial.GameState;
+
+            if (initial.IsSuccess)
+            {
+                var staticResult = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
+                Dispatcher.Invoke(() => Cards = staticResult.ConvertToCardList());
+                //cardID <-> cardCode
+                Dictionary<int,string> usedCards = new Dictionary<int,string>();
+
+                while(gameState == Constants.GameStates.InProgress)
+                {
+                    UpdateHeaderText(@"In a match against " + initial.OpponentName);
+
+                    Thread.Sleep(Constants.GameStatePollFrequency);
+
+                    var posResult = await GameRequestFactory.Get(Enums.RequestType.PositionalRectangles) as PositionalRectangles;
+                    gameState = posResult.GameState;
+
+                    if(posResult.Rectangles != null && posResult.Rectangles.Count > 0)
+                    {
+                        posResult.Rectangles.ForEach(x => {
+                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer) usedCards.Add(x.CardID, x.CardCode);
+                        });
+
+                        await Dispatcher.InvokeAsync(() =>
+                        {
+                            var usedCardCodes = usedCards.Values;
+                            //usedCardCodes.
+                            //Cards.Remove
+
+                            ManualImageListRefresh();
+                        });
+                    }
+
+                }
+                {
+                    UpdateHeaderText("Match is not in progress.");
+                }
+            }
+
+            
+        }
+
+        private void UpdateHeaderText(string newValue)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                MatchControllHeader.MatchStateText.Content = newValue;
+            });
         }
     }
 }

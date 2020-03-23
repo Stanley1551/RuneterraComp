@@ -24,8 +24,8 @@ namespace RuneterraCompanion
             var container = new Container();
 
             // Types
-            container.Register<IUserConfiguration>(() => new UserConfiguration(), Lifestyle.Singleton);
-            container.Register<IConfigurationTracker>(() => new ConfigurationTracker(), Lifestyle.Singleton);
+            //container.Register<IUserConfiguration>(() => new UserConfiguration(), Lifestyle.Singleton);
+            //container.Register<IConfigurationTracker>(() => new ConfigurationTracker(), Lifestyle.Singleton);
 
             // Windows
             container.Register(() => new MainWindow(container), Lifestyle.Singleton);

@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="StartStopButton" Content="Start Match" Height="25" HorizontalAlignment="Left" Grid.Column="0" Width="100"/>
 
-        <Label Content="Match is not in progress" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Label x:Name="MatchStateText" Content="Match is not in progress" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
     </Grid>
 
 </UserControl>

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Net.Sockets;
+using System.Windows.Threading;
+using RuneterraCompanion.Configuration.Interfaces;
+using System.Threading;
 
 namespace RuneterraCompanion.Handlers
 {
@@ -86,8 +89,8 @@ namespace RuneterraCompanion.Handlers
                 throw e;
             }
         }
-
-        private string GetPort => ((MainWindow)Application.Current.MainWindow).Configuration.Port.ToString();
+        //validation?
+        private string GetPort => ((App)Application.Current).Configuration.Port.ToString();
         private string BaseUrl => Constants.Protocol + Constants.Host + ':' + GetPort;
         private string PositionalRectanglesUrl => BaseUrl + Constants.PathToPositionalRectangles;
         private string StaticDeckListUrl => BaseUrl + Constants.PathToStaticDeckList;

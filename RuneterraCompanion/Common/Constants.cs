@@ -16,5 +16,12 @@ namespace RuneterraCompanion.Common
         internal const string cardImgPath = @"Assets\en_us\img\cards";
         internal const string cardThumbnailPath = @"Assets\en_us\img\thumbnails";
         internal const string DataJsonPath = @"Assets\en_us\data\set1-en_us.json";
+
+        internal const int GameStatePollFrequency = 1000;
+
+        internal static class GameStates
+        {
+            internal const string InProgress = @"InProgress";
+        }
     }
 }

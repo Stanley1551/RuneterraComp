@@ -36,12 +36,13 @@ namespace RuneterraCompanion
 
         protected override void OnRender(DrawingContext drawingContext)
         {
+            DataContext = ((App)Application.Current).Configuration;
             //quick workaround
-            if (mainWindow == null)
-            {
-                mainWindow = (MainWindow)Application.Current.MainWindow;
-                DataContext = mainWindow.Configuration;
-            }
+            //if (mainWindow == null)
+            //{
+            //    mainWindow = (MainWindow)Application.Current.MainWindow;
+            //    DataContext = mainWindow.Configuration;
+            //}
         }
 
         private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
@@ -76,7 +77,9 @@ namespace RuneterraCompanion
 
         private void TextField_LostFocus(object sender, RoutedEventArgs e)
         {
-            mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
+            //annyira ez se tetszik de egyelőre jó
+            //mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
+            ((App)Application.Current).Tracker.Tracker.Persist(((App)Application.Current).Configuration);
         }
     }
 }
