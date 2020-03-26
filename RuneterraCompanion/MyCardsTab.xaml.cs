@@ -1,7 +1,9 @@
 ﻿using RuneterraCompanion.Common;
 using RuneterraCompanion.CustomModels;
 using RuneterraCompanion.Factory;
+using RuneterraCompanion.Handlers;
 using RuneterraCompanion.ResponseModels;
+using RuneterraCompanion.Common.CustomEventArgs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -121,58 +123,27 @@ namespace RuneterraCompanion
 
         private async Task PollGameState()
         {
-            string gameState = string.Empty;
+            GameStatePollingHandler handler = new GameStatePollingHandler(Handler_GameStateTextUpdated, Handler_RemainingCardsUpdated);
 
-            var initial = await GameRequestFactory.Get(Enums.RequestType.PositionalRectangles) as PositionalRectangles;
-            gameState = initial.GameState;
+            await handler.StartPolling();
 
-            if (initial.IsSuccess)
-            {
-                var staticResult = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
-                Dispatcher.Invoke(() => Cards = staticResult.ConvertToCardList());
-                //cardID <-> cardCode
-                Dictionary<int,string> usedCards = new Dictionary<int,string>();
-
-                while(gameState == Constants.GameStates.InProgress)
-                {
-                    UpdateHeaderText(@"In a match against " + initial.OpponentName);
-
-                    Thread.Sleep(Constants.GameStatePollFrequency);
-
-                    var posResult = await GameRequestFactory.Get(Enums.RequestType.PositionalRectangles) as PositionalRectangles;
-                    gameState = posResult.GameState;
-
-                    if(posResult.Rectangles != null && posResult.Rectangles.Count > 0)
-                    {
-                        posResult.Rectangles.ForEach(x => {
-                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer) usedCards.Add(x.CardID, x.CardCode);
-                        });
-
-                        await Dispatcher.InvokeAsync(() =>
-                        {
-                            var usedCardCodes = usedCards.Values;
-                            //usedCardCodes.
-                            //Cards.Remove
-
-                            ManualImageListRefresh();
-                        });
-                    }
-
-                }
-                {
-                    UpdateHeaderText("Match is not in progress.");
-                }
-            }
-
-            
         }
 
-        private void UpdateHeaderText(string newValue)
+        private void Handler_RemainingCardsUpdated(object sender, RemainingCardsUpdatedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
-            {
-                MatchControllHeader.MatchStateText.Content = newValue;
-            });
+            Dispatcher.Invoke(() => Cards = e.RemainingCardsDict.ConvertToCardList());
         }
+
+        private void Handler_GameStateTextUpdated(object sender, GameStateTextUpdatedEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(e.UpdatedText))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MatchControllHeader.MatchStateText.Content = e.UpdatedText;
+                });
+            }
+        }
+
     }
 }

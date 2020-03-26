@@ -20,22 +20,32 @@ namespace RuneterraCompanion.ResponseModels
             }
             else
             {
-                var enumerator = list.CardsInDeck.GetEnumerator();
-                enumerator.MoveNext();
-                if (list.CardsInDeck.Count > 0)
+                return GetCardList(list.CardsInDeck);
+            }
+        }
+
+        public static List<Card> ConvertToCardList(this Dictionary<string,int> dict)
+        {
+            return GetCardList(dict);
+        }
+
+        private static List<Card> GetCardList(Dictionary<string,int> dict)
+        {
+            var enumerator = dict.GetEnumerator();
+            enumerator.MoveNext();
+            if (dict.Count > 0)
+            {
+                do
                 {
                     do
                     {
-                        do
-                        {
-                            ListResult.Add(Storage.GetByCode(enumerator.Current.Key));
-                        }
-                        while (enumerator.Current.Value > ListResult.FindAll(x => x.cardCode == enumerator.Current.Key).Count);
+                        ListResult.Add(Storage.GetByCode(enumerator.Current.Key));
                     }
-                    while (enumerator.MoveNext());
+                    while (enumerator.Current.Value > ListResult.FindAll(x => x.cardCode == enumerator.Current.Key).Count);
                 }
-                return ListResult;
+                while (enumerator.MoveNext());
             }
+            return ListResult;
         }
 
         private static CardDataStorage<Card> Storage => ((App)Application.Current).Storage;
