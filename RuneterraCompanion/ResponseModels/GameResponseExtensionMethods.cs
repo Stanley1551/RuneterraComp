@@ -31,6 +31,8 @@ namespace RuneterraCompanion.ResponseModels
 
         private static List<Card> GetCardList(Dictionary<string,int> dict)
         {
+            ListResult.Clear();
+
             var enumerator = dict.GetEnumerator();
             enumerator.MoveNext();
             if (dict.Count > 0)

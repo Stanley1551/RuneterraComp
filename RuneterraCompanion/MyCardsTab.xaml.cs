@@ -42,10 +42,15 @@ namespace RuneterraCompanion
                 {
                     ImageList.ItemsSource = value;
                     CardFilterHeaderControl.SortingComboBox.IsEnabled = true;
+                    MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Visible;
+                    MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Visible;
+                    MatchControllHeader.RemainingCardsNumber.Content = value.Count.ToString();
                 }
                 else
                 {
                     ImageList.Items.Clear();
+                    MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Hidden;
+                    MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Hidden;
                 }
 
                 ImageList.Items.Refresh();

@@ -13,11 +13,16 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
         <Button x:Name="StartStopButton" Content="Start Match" Height="25" HorizontalAlignment="Left" Grid.Column="0" Width="100"/>
 
         <Label x:Name="MatchStateText" Content="Match is not in progress" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Label x:Name="RemainingCardsLabelText" Content="Remaining cards:" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Hidden"/>
+        <Label x:Name="RemainingCardsNumber" Content="40" Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Left" Visibility="Hidden"/>
     </Grid>
 
 </UserControl>

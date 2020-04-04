@@ -16,7 +16,9 @@ namespace RuneterraCompanion.Handlers
             EventHandler<RemainingCardsUpdatedEventArgs> remainingCardsHandler)
         {
             usedCards = new Dictionary<int, string>();
-            activeDeck = new Dictionary<string, int>();
+            //activeDeck = new Dictionary<string, int>();
+            remainingCards = new Dictionary<string, int>();
+            //subtractedCards = new Dictionary<int, string>();
 
             GameStateTextUpdated = gameStateTextHandler;
             RemainingCardsUpdated = remainingCardsHandler;
@@ -33,7 +35,8 @@ namespace RuneterraCompanion.Handlers
             {
                 var staticResult = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
                 //staticResult !IsSuccess?
-                activeDeck = staticResult.CardsInDeck;
+                //activeDeck = staticResult.CardsInDeck;
+                remainingCards = staticResult.CardsInDeck;
 
                 OnRemainingCardsUpdated(new RemainingCardsUpdatedEventArgs(staticResult.CardsInDeck));
                 
@@ -47,21 +50,25 @@ namespace RuneterraCompanion.Handlers
                     var posResult = await GameRequestFactory.Get(Enums.RequestType.PositionalRectangles) as PositionalRectangles;
                     gameState = posResult.GameState;
 
+                    bool changed = false;
+
                     if (posResult.Rectangles != null && posResult.Rectangles.Count > 0)
                     {
+
                         posResult.Rectangles.ForEach(x => {
-                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer) usedCards.Add(x.CardID, x.CardCode);
+                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer /* jesus christ.... */ && x.CardCode != "face")
+                            {
+                                usedCards.Add(x.CardID, x.CardCode);
+                                RemoveFromRemainingCards(x.CardCode);
+                                changed = true;
+                            }
+
                         });
+                    }
 
-
-                        //await Dispatcher.InvokeAsync(() =>
-                        //{
-                        //    var usedCardCodes = usedCards.Values;
-                        //    //usedCardCodes.
-                        //    //Cards.Remove
-
-                        //    ManualImageListRefresh();
-                        //});
+                    if (changed)
+                    {
+                        OnRemainingCardsUpdated(new RemainingCardsUpdatedEventArgs(remainingCards));
                     }
 
                 }
@@ -71,10 +78,25 @@ namespace RuneterraCompanion.Handlers
             }
         }
 
+        private void RemoveFromRemainingCards(string cardCode)
+        {
+            if(remainingCards[cardCode] > 1)
+            {
+                remainingCards[cardCode]--;
+            }
+            else if(remainingCards[cardCode] == 1)
+            {
+                remainingCards.Remove(cardCode);
+            }
+        }
+
         //cardID <-> cardCode
         private Dictionary<int, string> usedCards;
+        //private Dictionary<int, string> subtractedCards;
         //cardCode <-> quantity
-        private Dictionary<string,int> activeDeck;
+        //private Dictionary<string,int> activeDeck;
+        private Dictionary<string, int> remainingCards;
+        
 
         private void OnGameStateTextChanged(GameStateTextUpdatedEventArgs e)
         {
