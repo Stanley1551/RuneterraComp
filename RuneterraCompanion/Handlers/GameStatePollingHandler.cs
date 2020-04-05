@@ -35,7 +35,7 @@ namespace RuneterraCompanion.Handlers
             {
                 var staticResult = await GameRequestFactory.Get(Enums.RequestType.StaticDeckList) as StaticDeckList;
                 //staticResult !IsSuccess?
-                //activeDeck = staticResult.CardsInDeck;
+                activeDeck = staticResult.CardsInDeck;
                 remainingCards = staticResult.CardsInDeck;
 
                 OnRemainingCardsUpdated(new RemainingCardsUpdatedEventArgs(staticResult.CardsInDeck));
@@ -56,7 +56,8 @@ namespace RuneterraCompanion.Handlers
                     {
 
                         posResult.Rectangles.ForEach(x => {
-                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer /* jesus christ.... */ && x.CardCode != "face")
+                            if (!usedCards.ContainsKey(x.CardID) && x.LocalPlayer /* jesus christ.... */ && x.CardCode != "face"
+                            && activeDeck.ContainsKey(x.CardCode))
                             {
                                 usedCards.Add(x.CardID, x.CardCode);
                                 RemoveFromRemainingCards(x.CardCode);
@@ -78,25 +79,28 @@ namespace RuneterraCompanion.Handlers
             }
         }
 
+       
+
+        //cardID <-> cardCode
+        private Dictionary<int, string> usedCards;
+        //cardCode <-> quantity
+        private Dictionary<string, int> activeDeck;
+        private Dictionary<string, int> remainingCards;
+
         private void RemoveFromRemainingCards(string cardCode)
         {
-            if(remainingCards[cardCode] > 1)
+            if (!remainingCards.ContainsKey(cardCode))
+                return;
+
+            if (remainingCards[cardCode] > 1)
             {
                 remainingCards[cardCode]--;
             }
-            else if(remainingCards[cardCode] == 1)
+            else if (remainingCards[cardCode] == 1)
             {
                 remainingCards.Remove(cardCode);
             }
         }
-
-        //cardID <-> cardCode
-        private Dictionary<int, string> usedCards;
-        //private Dictionary<int, string> subtractedCards;
-        //cardCode <-> quantity
-        //private Dictionary<string,int> activeDeck;
-        private Dictionary<string, int> remainingCards;
-        
 
         private void OnGameStateTextChanged(GameStateTextUpdatedEventArgs e)
         {
