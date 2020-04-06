@@ -33,29 +33,55 @@ namespace RuneterraCompanion
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Exposes ImageList.ItemsSource. 
+        /// Setter can be assigned null or empty List, the list should be updated accordingly.
+        /// </summary>
         public List<Card> Cards {
             get {
                 return (List<Card>)ImageList.ItemsSource;
             }
             set {
-                if(value.Count > 0)
-                {
-                    ImageList.ItemsSource = value;
-                    CardFilterHeaderControl.SortingComboBox.IsEnabled = true;
-                    MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Visible;
-                    MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Visible;
-                    MatchControllHeader.RemainingCardsNumber.Content = value.Count.ToString();
-                }
-                else
+                if(value == null || value.Count == 0)
                 {
                     ImageList.Items.Clear();
-                    MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Hidden;
-                    MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Hidden;
+                    SetElementsDisabled();
+                }
+                else if (value.Count > 0)
+                {
+                    ImageList.ItemsSource = value;
+                    PersistSorting();
+                    SetElementsEnabled(value.Count);
                 }
 
                 ImageList.Items.Refresh();
             }
         }
+
+        private void PersistSorting()
+        {
+            var item = CardFilterHeaderControl.SortingComboBox.SelectedItem;
+
+            if (item != null && !string.IsNullOrEmpty(item.ToString()))
+            {
+                SortCardList(CardFilterHeaderControl.SortingComboBox.SelectedItem.ToString());
+            }
+        }
+
+        private void SetElementsDisabled()
+        {
+            MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Hidden;
+            MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Hidden;
+        }
+
+        private void SetElementsEnabled(int numberOfCards = 0)
+        {
+            CardFilterHeaderControl.SortingComboBox.IsEnabled = true;
+            MatchControllHeader.RemainingCardsLabelText.Visibility = Visibility.Visible;
+            MatchControllHeader.RemainingCardsNumber.Visibility = Visibility.Visible;
+            MatchControllHeader.RemainingCardsNumber.Content = numberOfCards.ToString();
+        }
+    
 
         // get a reference to main windows when it is available.
         // The Loaded Event is set in the XAML code above.
@@ -83,9 +109,14 @@ namespace RuneterraCompanion
 
         private void SortingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SortCardList(e.AddedItems[0].ToString());
+        }
+
+        private void SortCardList(string method)
+        {
             if (Cards.Count > 0)
             {
-                switch (e.AddedItems[0].ToString())
+                switch (method)
                 {
                     case "Health":
                         Cards.Sort((x, y) => x.health - y.health);
@@ -136,7 +167,10 @@ namespace RuneterraCompanion
 
         private void Handler_RemainingCardsUpdated(object sender, RemainingCardsUpdatedEventArgs e)
         {
-            Dispatcher.Invoke(() => Cards = e.RemainingCardsDict.ConvertToCardList());
+            if(e.RemainingCardsDict != null && e.RemainingCardsDict.Count > 0)
+            {
+                Dispatcher.Invoke(() => Cards = e.RemainingCardsDict.ConvertToCardList());
+            }
         }
 
         private void Handler_GameStateTextUpdated(object sender, GameStateTextUpdatedEventArgs e)
@@ -151,4 +185,5 @@ namespace RuneterraCompanion
         }
 
     }
+
 }
