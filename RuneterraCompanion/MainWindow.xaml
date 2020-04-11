@@ -10,13 +10,13 @@
     <TabControl x:Name="MainTabControl" Background="DarkGray"
         BorderBrush="DarkGray">
 
-        <TabItem Header="My cards" Background="DarkGray">
+        <TabItem x:Name="MyCardTabItem" Header="My cards" Background="DarkGray">
             <local:MyCardsTab x:Name="MyCardsTab"/>
         </TabItem>
-        <TabItem Header="Card Browser" Background="DarkGray">
+        <TabItem x:Name="BrowserTabItem" Header="Card Browser" Background="DarkGray">
             <local:BrowserTab x:Name="BrowserTab"/>
         </TabItem>
-        <TabItem Header="Settings" Background="DarkGray">
+        <TabItem x:Name="SettingsTabItem" Header="Settings" Background="DarkGray">
             <local:SettingsTab x:Name="SettingsTab"/>
         </TabItem>
     </TabControl>

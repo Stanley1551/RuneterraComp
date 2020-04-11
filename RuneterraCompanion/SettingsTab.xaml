@@ -61,6 +61,9 @@
                      PreviewTextInput="PortField_PreviewTextInput" DataObject.Pasting="PortField_Pasting" LostFocus="TextField_LostFocus"
                      Text="{Binding Port, Mode=TwoWay}"/>
         </StackPanel>
+
+        <Button x:Name="DeleteButton" Content="Delete downloaded files" Click="DeleteButton_Click" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5"
+                Margin="10,10,10,0" Width="220" Height="30"/>
     </Grid>
 
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using Jot;
+using RuneterraCompanion.Common;
 using RuneterraCompanion.Configuration;
 using System;
 using System.Collections.Generic;
@@ -37,19 +38,13 @@ namespace RuneterraCompanion
         protected override void OnRender(DrawingContext drawingContext)
         {
             DataContext = ((App)Application.Current).Configuration;
-            //quick workaround
-            //if (mainWindow == null)
-            //{
-            //    mainWindow = (MainWindow)Application.Current.MainWindow;
-            //    DataContext = mainWindow.Configuration;
-            //}
         }
 
         private void CardIntegrityCheck_Click(object sender, RoutedEventArgs e)
         {
             if(CanPopupShow)
             {
-                CheckPopup popup = new CheckPopup(mainWindow.container);
+                CheckPopup popup = new CheckPopup();
                 popup.Show();
             }
         }
@@ -77,9 +72,28 @@ namespace RuneterraCompanion
 
         private void TextField_LostFocus(object sender, RoutedEventArgs e)
         {
-            //annyira ez se tetszik de egyelőre jó
-            //mainWindow.Tracker.Tracker.Persist(mainWindow.Configuration);
             ((App)Application.Current).Tracker.Tracker.Persist(((App)Application.Current).Configuration);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("This operation will delete your downloaded files permanently.\n Are you sure about this?",
+                "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    Directory.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName), true);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Deleting the downloaded files failed! " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                MessageBox.Show("Files deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

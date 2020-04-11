@@ -103,8 +103,11 @@ namespace RuneterraCompanion
         private async void StartMatchButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO handle match not started!
+            ((MainWindow)Application.Current.MainWindow).SettingsTabItem.IsEnabled = false;
             
             await Task.Run(PollGameState);
+
+            ((MainWindow)Application.Current.MainWindow).SettingsTabItem.IsEnabled = true;
         }
 
         private void SortingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

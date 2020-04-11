@@ -16,9 +16,7 @@ namespace RuneterraCompanion.Handlers
             EventHandler<RemainingCardsUpdatedEventArgs> remainingCardsHandler)
         {
             usedCards = new Dictionary<int, string>();
-            //activeDeck = new Dictionary<string, int>();
             remainingCards = new Dictionary<string, int>();
-            //subtractedCards = new Dictionary<int, string>();
 
             GameStateTextUpdated = gameStateTextHandler;
             RemainingCardsUpdated = remainingCardsHandler;

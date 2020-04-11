@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using RuneterraCompanion.Common;
 using RuneterraCompanion.Helpers;
 using SimpleInjector;
+using Path = System.IO.Path;
 
 namespace RuneterraCompanion
 {
@@ -33,9 +34,9 @@ namespace RuneterraCompanion
     public partial class CheckPopup : Window
     {
         //WebClientnek kéne valami scoped lifestyle...
-        private SimpleInjector.Container container;
         private WebClient client;
-    
+        
+        private string CurrentDirectory => Directory.GetCurrentDirectory();
 
         public string OperationLabel { 
             get => CurrentOperationLabel.Content.ToString();
@@ -47,12 +48,11 @@ namespace RuneterraCompanion
             set => CheckingProgressBar.Value = value;
         }
 
-        public CheckPopup(SimpleInjector.Container container)
+        public CheckPopup()
         {
             InitializeComponent();
 
             client = new WebClient();
-            this.container = container;
         }
 
         protected override async void OnInitialized(EventArgs e)
@@ -121,7 +121,7 @@ namespace RuneterraCompanion
 
         private async Task HandleImageDowngrade()
         {
-            Directory.CreateDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardThumbnailPath));
+            Directory.CreateDirectory(Path.Combine(CurrentDirectory, Constants.cardThumbnailPath));
 
             Dispatcher.Invoke(() => {
                 OperationLabel = "Creating thumbnails...";
@@ -132,13 +132,13 @@ namespace RuneterraCompanion
 
         private void DownGradeImages()
         {
-            var files = Directory.GetFiles(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardImgPath));
+            var files = Directory.GetFiles(System.IO.Path.Combine(CurrentDirectory, Constants.cardImgPath));
             var imageHelper = new ImageHelper();
 
             foreach (var img in files)
             {
                 var filename = System.IO.Path.GetFileNameWithoutExtension(img);
-                var newPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.cardThumbnailPath, filename+".png");
+                var newPath = System.IO.Path.Combine(CurrentDirectory, Constants.cardThumbnailPath, filename+".png");
 
                 imageHelper.SaveImage(newPath, img, 15);
             }
@@ -146,15 +146,15 @@ namespace RuneterraCompanion
 
         private void HandleUnZip()
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile), 
-                System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName));
+            System.IO.Compression.ZipFile.ExtractToDirectory(System.IO.Path.Combine(CurrentDirectory, Constants.assetsFile), 
+                System.IO.Path.Combine(CurrentDirectory, Constants.assetsDirectoryName));
 
             DeleteDownloadedZip();
         }
 
         private void DeleteDownloadedZip()
         {
-            File.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsFile));
+            File.Delete(System.IO.Path.Combine(CurrentDirectory, Constants.assetsFile));
         }
 
         //On cancel: abort the operation, then delete the downloaded zip
@@ -191,10 +191,45 @@ namespace RuneterraCompanion
             }
         }
 
-        //TODO check files as well
         private bool IsDownloadNeeded()
         {
-            return !Directory.Exists(Constants.assetsDirectoryName);
+            if(!CheckPath(Constants.assetsDirectoryName))
+            {
+                return true;
+            }
+            
+            if(!CheckPath(Constants.cardImgPath))
+            {
+                return true;
+            }
+
+            if(!CheckPath(Constants.cardThumbnailPath))
+            {
+                return true;
+            }
+            
+            if(Directory.GetFiles(Path.Combine(CurrentDirectory, Constants.cardThumbnailPath)).Length < 100
+                || Directory.GetFiles(Path.Combine(CurrentDirectory, Constants.cardThumbnailPath)).Length < 100)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CheckPath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return false;
+            }
+
+            if (Directory.GetFiles(Path.Combine(CurrentDirectory, path)).Length == 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void CreateDirectoryForFiles()
