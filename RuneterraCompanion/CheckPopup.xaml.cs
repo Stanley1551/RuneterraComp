@@ -100,7 +100,7 @@ namespace RuneterraCompanion
                 }
             }
 
-            SetProgressBarToCompleted();
+            SetProgressBarToCompleted(IsDownloadNeeded());
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -247,12 +247,32 @@ namespace RuneterraCompanion
             DownloadPercentageText.Text = percentage + "%";
         }
 
-        private void SetProgressBarToCompleted()
+        private void SetProgressBarToCompleted(bool isRestartNeeded)
         {
-            CancelButton.IsEnabled = false;
+            if(isRestartNeeded)
+            {
+                SwitchNextOperationToRestart();
+            }
+            else
+            {
+                NextOperationPlaceholder.Visibility = Visibility.Hidden;
+            }
+
             CheckingProgressBarPercentage = 100;
             DownloadPercentageText.Text = "100 %";
             OperationLabel = "Operation completed";
+        }
+
+        private void RestartButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void SwitchNextOperationToRestart()
+        {
+            NextOperationPlaceholder.Click += RestartButton_Click;
+            NextOperationPlaceholder.Content = "Restart application";
+            NextOperationPlaceholder.Width = 120;
         }
     }
 }

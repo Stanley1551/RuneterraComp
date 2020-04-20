@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:RuneterraCompanion"
         mc:Ignorable="d"
         Background="DarkGray"
-        Title="Check file integrity" Height="180" Width="470" ResizeMode="NoResize">
+        Title="Check file integrity" Height="180" Width="470" ResizeMode="NoResize" Topmost="True" WindowStyle="ThreeDBorderWindow">
     
     <StackPanel>
         <Label Content="Checking files locally..." HorizontalAlignment="Center" Margin="0,5,0,0" Name="CurrentOperationLabel"></Label>
         <ProgressBar Name="CheckingProgressBar" Width="400" Height="25" Margin="0,20,0,0" Foreground="#FF5962BF" />
         <TextBlock Name="DownloadPercentageText" HorizontalAlignment="Center" VerticalAlignment="Center">0%</TextBlock>
-        <Button Name="CancelButton" Click="CancelButton_Click" Content="Cancel" Width="50" Margin="0,20,0,0"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Button Name="NextOperationPlaceholder" Width="50" Margin="0,20,0,0" Content="Cancel" Click="CancelButton_Click"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Visible"/>
+        
     </StackPanel>
     
 </Window>

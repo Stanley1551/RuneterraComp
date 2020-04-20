@@ -151,5 +151,11 @@ namespace RuneterraCompanion
         {
             UnsubscribeFromEvents();
         }
+
+        //paraméterek hiányában így nem jó...
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
