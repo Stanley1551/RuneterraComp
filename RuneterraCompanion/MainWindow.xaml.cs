@@ -1,6 +1,8 @@
 ﻿using SimpleInjector;
 using System;
 using System.Windows;
+using System.IO;
+using RuneterraCompanion.Helpers;
 
 namespace RuneterraCompanion
 {
@@ -10,7 +12,7 @@ namespace RuneterraCompanion
     public partial class MainWindow : Window
     {
         public Container container { get; set; }
-        
+
 
         //SimpleInjector only allows 1 constructor
         //public MainWindow()
@@ -27,6 +29,13 @@ namespace RuneterraCompanion
             //Configuration = container.GetInstance<IUserConfiguration>();
 
             //Tracker.Tracker.Track(Configuration);
+
+            if (LocalFilesHelper.IsDownloadNeeded(Directory.GetCurrentDirectory()))
+            {
+                MessageBox.Show("Download is needed for the application to work properly.\nPlease select Check cards integrity under Settings tab.",
+                    "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
     }
 }

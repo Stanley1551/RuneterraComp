@@ -84,7 +84,11 @@ namespace RuneterraCompanion
             {
                 try
                 {
-                    Directory.Delete(System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName), true);
+                    string path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), Constants.assetsDirectoryName);
+                    if (Directory.Exists(path))
+                    {
+                        Directory.Delete(path, true);
+                    }
                 }
                 catch(Exception ex)
                 {

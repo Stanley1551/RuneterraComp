@@ -37,6 +37,7 @@ namespace RuneterraCompanion
         private WebClient client;
         
         private string CurrentDirectory => Directory.GetCurrentDirectory();
+        private bool IsDownloadNeeded => LocalFilesHelper.IsDownloadNeeded(CurrentDirectory);
 
         public string OperationLabel { 
             get => CurrentOperationLabel.Content.ToString();
@@ -58,8 +59,8 @@ namespace RuneterraCompanion
         protected override async void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-
-            if (IsDownloadNeeded())
+            bool downloadNeeded = IsDownloadNeeded;
+            if (downloadNeeded)
             {
                 try
                 {
@@ -100,7 +101,7 @@ namespace RuneterraCompanion
                 }
             }
 
-            SetProgressBarToCompleted(IsDownloadNeeded());
+            SetProgressBarToCompleted(downloadNeeded);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -173,9 +174,19 @@ namespace RuneterraCompanion
                     client = new WebClient();
                 }
                 client.DownloadProgressChanged += UpdateDownloadProgress;
-                await client.DownloadFileTaskAsync(new Uri(Constants.assetsUrl), Constants.assetsFile);
-                client.DownloadProgressChanged -= UpdateDownloadProgress;
-                client.Dispose();
+                try
+                {
+                    await client.DownloadFileTaskAsync(new Uri(Constants.assetsUrl), Constants.assetsFile);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    client.DownloadProgressChanged -= UpdateDownloadProgress;
+                    client.Dispose();
+                }
             }
             catch(OperationCanceledException) { 
                 Dispatcher.Invoke(() => { OperationLabel = "Cancelled"; }); }
@@ -189,47 +200,6 @@ namespace RuneterraCompanion
                     SetProgressBarValue(e.ProgressPercentage);
                     });
             }
-        }
-
-        private bool IsDownloadNeeded()
-        {
-            if(!CheckPath(Constants.assetsDirectoryName))
-            {
-                return true;
-            }
-            
-            if(!CheckPath(Constants.cardImgPath))
-            {
-                return true;
-            }
-
-            if(!CheckPath(Constants.cardThumbnailPath))
-            {
-                return true;
-            }
-            
-            if(Directory.GetFiles(Path.Combine(CurrentDirectory, Constants.cardThumbnailPath)).Length < 100
-                || Directory.GetFiles(Path.Combine(CurrentDirectory, Constants.cardThumbnailPath)).Length < 100)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool CheckPath(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                return false;
-            }
-
-            if (Directory.GetFiles(Path.Combine(CurrentDirectory, path)).Length == 0)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private void CreateDirectoryForFiles()
