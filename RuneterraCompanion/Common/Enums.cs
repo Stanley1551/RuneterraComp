@@ -12,17 +12,6 @@ namespace RuneterraCompanion.Common
             PositionalRectangles = 2
         };
 
-        public enum Regions
-        {
-            Demacia = 1,
-            Freljord = 2,
-            Ionia = 3,
-            Noxus = 4,
-            Piltover = 5,
-            Isles = 6,
-            All = 7
-        };
-
         public enum CardType
         {
             Spell = 1,
