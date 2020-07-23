@@ -39,9 +39,14 @@ namespace RuneterraCompanion.ResponseModels
             {
                 do
                 {
+                    //int count = 
                     do
                     {
-                        ListResult.Add(Storage.GetByCode(enumerator.Current.Key));
+                        var card = Storage.GetByCode(enumerator.Current.Key);
+                        if(card != null)
+                        {
+                            ListResult.Add(card);
+                        }
                     }
                     //nullexception???
                     while (enumerator.Current.Value > ListResult.FindAll(x => x.cardCode == enumerator.Current.Key).Count);
